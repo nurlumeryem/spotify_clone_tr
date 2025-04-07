@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:spotify_clone_tr/presentation/pages/get_started.dart';
+import 'package:spotify_clone_tr/presentation/pages/onboarding_pages.dart';
 import 'package:spotify_clone_tr/presentation/pages/splash.dart';
 
 class AppRouter {
@@ -10,9 +10,10 @@ class AppRouter {
       initialLocation: '/',
       routes: [
         GoRoute(path: '/', builder: (context, state) => const SplashPage()),
+
         GoRoute(
-          path: '/home',
-          builder: (context, state) => const GetStartedPage(),
+          path: '/onboarding',
+          builder: (context, state) => const OnboardingScreen(),
         ),
       ],
     );
