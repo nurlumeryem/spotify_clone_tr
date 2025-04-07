@@ -8,16 +8,19 @@ class ChooseModeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Spacer(),
-        const Text(
-          'Choose Mode',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 22,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+            child: const Text(
+              'Choose Mode',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 22,
+              ),
+            ),
           ),
         ),
-        const SizedBox(height: 40),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -25,8 +28,8 @@ class ChooseModeContent extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  height: 70,
-                  width: 70,
+                  height: 73,
+                  width: 73,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.grey.withOpacity(
@@ -55,8 +58,8 @@ class ChooseModeContent extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  height: 70,
-                  width: 70,
+                  height: 73,
+                  width: 73,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.grey.withOpacity(
