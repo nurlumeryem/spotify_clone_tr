@@ -78,8 +78,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 40,
-                      horizontal: 40,
+                      vertical: 20,
+                      horizontal: 20,
                     ),
                     child: Image.asset(AppImages.spotifyIcon, width: iconWidth),
                   ),
