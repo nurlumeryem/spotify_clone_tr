@@ -29,7 +29,7 @@ class ChooseModeContent extends StatelessWidget {
             fontSize: 18,
           ),
         ),
-        const SizedBox(height: 40),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.05),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -64,7 +64,7 @@ class ChooseModeContent extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Text(
                   'Dark Mode',
                   style: TextStyle(
@@ -76,7 +76,8 @@ class ChooseModeContent extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(width: 40),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+
             // Light Mode Button
             Column(
               children: [
@@ -108,7 +109,7 @@ class ChooseModeContent extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Text(
                   'Light Mode',
                   style: TextStyle(
@@ -121,7 +122,7 @@ class ChooseModeContent extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 50),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.06),
       ],
     );
   }
