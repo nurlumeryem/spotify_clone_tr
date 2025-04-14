@@ -1,35 +1,29 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'mode_event.dart';
 import 'mode_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-const String modeKey = 'app_mode';
+import 'package:spotify_clone_tr/core/utils/theme_preferences.dart'; // bu sınıfı import et
 
 class ModeBloc extends Bloc<ModeEvent, ModeState> {
   ModeBloc() : super(ModeState(mode: AppMode.dark)) {
     on<SetDarkMode>((event, emit) async {
       emit(ModeState(mode: AppMode.dark));
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(modeKey, 'dark');
+      await ThemePreferences.setThemeMode(AppMode.dark);
     });
 
     on<SetLightMode>((event, emit) async {
       emit(ModeState(mode: AppMode.light));
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(modeKey, 'light');
+      await ThemePreferences.setThemeMode(AppMode.light);
     });
 
-    _loadMode();
+    _loadMode(); // uygulama başlarken kayıtlı temayı yükle
   }
 
   void _loadMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedMode = prefs.getString(modeKey);
-
-    if (savedMode == 'dark') {
-      add(SetDarkMode());
-    } else if (savedMode == 'light') {
+    final savedMode = await ThemePreferences.getThemeMode();
+    if (savedMode == AppMode.light) {
       add(SetLightMode());
+    } else {
+      add(SetDarkMode());
     }
   }
 }
