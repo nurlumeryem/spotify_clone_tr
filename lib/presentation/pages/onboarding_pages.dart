@@ -17,6 +17,10 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   final ValueNotifier<int> _currentPageNotifier = ValueNotifier<int>(0);
+  final List<String> backgroundImages = [
+    AppImages.getStartedImage,
+    AppImages.chooseModeImage,
+  ];
 
   @override
   void initState() {
@@ -42,34 +46,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final double iconWidth =
         (196 / AppDimensions.figmaDesignWidth) * screenWidth;
 
-    final List<String> backgroundImages = [
-      AppImages.getStartedImage,
-      AppImages.chooseModeImage,
-    ];
-
     return Scaffold(
       body: Stack(
         children: [
-          ValueListenableBuilder<int>(
-            valueListenable: _currentPageNotifier,
-            builder: (context, currentPage, _) {
-              return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                switchInCurve: Curves.easeIn,
-                switchOutCurve: Curves.easeOut,
-                child: Container(
-                  key: ValueKey<int>(currentPage),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(backgroundImages[currentPage]),
+          // Arka plan resimleri için Stack ve Positioned.fill kullanımı
+          Positioned.fill(
+            child: ValueListenableBuilder<int>(
+              valueListenable: _currentPageNotifier,
+              builder: (context, currentPage, _) {
+                return AnimatedOpacity(
+                  opacity: 1.0,
+                  duration: const Duration(milliseconds: 500),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(backgroundImages[currentPage]),
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.low,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
+
           Container(color: Colors.black.withOpacity(0.15)),
+
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
             child: Column(
@@ -84,21 +87,38 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Image.asset(AppImages.spotifyIcon, width: iconWidth),
                   ),
                 ),
+
                 Expanded(
                   child: PageView.builder(
                     controller: _pageController,
                     physics: const BouncingScrollPhysics(),
                     itemCount: 2,
                     itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return const GetStartedContent();
-                      } else {
-                        return const ChooseModeContent();
-                      }
+                      return AnimatedBuilder(
+                        animation: _pageController,
+                        builder: (context, child) {
+                          // Sayfa geçişlerinde opacity efekti
+                          double value = 1.0;
+                          if (_pageController.position.haveDimensions) {
+                            value = _pageController.page! - index;
+                            value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
+                          }
+                          return Opacity(
+                            opacity: value,
+                            child: Transform.scale(scale: value, child: child),
+                          );
+                        },
+                        child:
+                            index == 0
+                                ? const GetStartedContent()
+                                : const ChooseModeContent(),
+                      );
                     },
                   ),
                 ),
+
                 const SizedBox(height: 20),
+
                 ValueListenableBuilder<int>(
                   valueListenable: _currentPageNotifier,
                   builder: (context, currentPage, _) {
@@ -107,14 +127,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           currentPage == 0
                               ? AppStrings.getStarted
                               : AppStrings.continueText,
-                      onPressed: () {
+                      onPressed: () async {
                         if (currentPage == 0) {
-                          _pageController.nextPage(
+                          await _pageController.nextPage(
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeInOut,
                           );
                         } else {
-                          context.go('/home');
+                          if (!mounted) return;
+                          context.go('/signupOrsigninPage');
                         }
                       },
                     );
