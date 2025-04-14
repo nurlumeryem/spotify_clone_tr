@@ -6,6 +6,13 @@ import 'package:spotify_clone_tr/presentation/bloc/mode_bloc/mode_bloc.dart';
 import 'package:spotify_clone_tr/presentation/bloc/mode_bloc/mode_state.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  debugDisableShadows = true;
+
+  FlutterError.onError = (details) {
+    debugPrint(details.exceptionAsString());
+  };
+
   setupLocator(); // GetIt kurulumun
   runApp(const AppRoot());
 }
@@ -31,6 +38,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp.router(
           theme:
               state.mode == AppMode.dark ? ThemeData.dark() : ThemeData.light(),
+
           debugShowCheckedModeBanner: false,
           routerConfig: router,
         );

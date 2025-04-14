@@ -84,12 +84,6 @@ class SignupOrSigninPage extends StatelessWidget {
                             context.go('/signup');
                           },
                           title: 'Kaydol',
-                          backgroundColor: const Color(0xFF42C83C),
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -100,13 +94,6 @@ class SignupOrSigninPage extends StatelessWidget {
                             context.go('/signin');
                           },
                           title: 'Oturum aç',
-                          backgroundColor: Colors.transparent,
-                          hasBorder: true,
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
                         ),
                       ),
                     ],

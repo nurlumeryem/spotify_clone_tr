@@ -45,7 +45,7 @@ class AppRouter {
             pageBuilder:
                 (context, state) => CustomTransitionPage<void>(
                   key: state.pageKey,
-                  child: const SignupPage(),
+                  child: SignupPage(),
                   transitionsBuilder: (
                     context,
                     animation,
