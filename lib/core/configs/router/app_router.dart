@@ -75,7 +75,28 @@ class AppRouter {
             pageBuilder:
                 (context, state) => CustomTransitionPage<void>(
                   key: state.pageKey,
-                  child: const SigninPage(),
+                  child: SigninPage(),
+                  transitionsBuilder: (
+                    context,
+                    animation,
+                    secondaryAnimation,
+                    child,
+                  ) {
+                    return FadeTransition(
+                      opacity: CurveTween(
+                        curve: Curves.easeInOut,
+                      ).animate(animation),
+                      child: child,
+                    );
+                  },
+                ),
+          ),
+          GoRoute(
+            path: '/signup',
+            pageBuilder:
+                (context, state) => CustomTransitionPage<void>(
+                  key: state.pageKey,
+                  child: SignupPage(),
                   transitionsBuilder: (
                     context,
                     animation,

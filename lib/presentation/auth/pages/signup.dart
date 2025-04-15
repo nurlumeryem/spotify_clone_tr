@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spotify_clone_tr/common/widgets/app_bar.dart';
 import 'package:spotify_clone_tr/common/widgets/basic_app_button.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_vectors.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
 import 'package:spotify_clone_tr/domain/usecases/signin_usecase.dart';
+import 'package:spotify_clone_tr/domain/usecases/signup_usecase.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signin.dart';
 
 import 'package:spotify_clone_tr/service_locator.dart';
@@ -25,29 +27,63 @@ class SignupPage extends StatelessWidget {
   }
 
   Widget _fullNameField(BuildContext context) {
-    return TextField(
-      controller: _fullName,
-      decoration: const InputDecoration(
-        hintText: 'Full Name',
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
+    return Container(
+      width: 334,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextField(
+        controller: _fullName,
+        style: const TextStyle(fontSize: 22), // Adjust font size
+        decoration: InputDecoration(
+          hintText: 'Full Name',
+          hintStyle: const TextStyle(fontSize: 22), // Adjust hint text size
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(vertical: 20),
+        ),
+      ),
     );
   }
 
   Widget _emailField(BuildContext context) {
-    return TextField(
-      controller: _email,
-      decoration: const InputDecoration(
-        hintText: 'Enter Email',
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
+    return Container(
+      width: 334,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextField(
+        controller: _email,
+        textAlign: TextAlign.start,
+        decoration: InputDecoration(
+          hintText: 'Enter Email',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 20),
+        ),
+      ),
     );
   }
 
   Widget _passwordField(BuildContext context) {
-    return TextField(
-      controller: _password,
-      decoration: const InputDecoration(
-        hintText: 'Password',
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
+    return Container(
+      width: 334,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextField(
+        controller: _password,
+        textAlign: TextAlign.start,
+        decoration: InputDecoration(
+          hintText: 'Password',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 20),
+        ),
+      ),
     );
   }
 
@@ -63,12 +99,7 @@ class SignupPage extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => SigninPage(),
-                ),
-              );
+              context.go('/signin');
             },
             child: const Text(
               'Sign In',
@@ -118,13 +149,7 @@ class SignupPage extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   },
                   (r) {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const SigninPage(),
-                      ),
-                      (route) => false,
-                    );
+                    context.go('/signin');
                   },
                 );
               },

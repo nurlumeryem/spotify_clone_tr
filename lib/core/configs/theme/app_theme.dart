@@ -11,23 +11,18 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.transparent,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      contentPadding: const EdgeInsets.all(30),
       hintStyle: const TextStyle(
-        fontSize: 16,
         color: Color(0xff383838),
         fontWeight: FontWeight.w500,
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
-        borderSide: const BorderSide(color: Color(0x33000000), width: 1),
+        borderSide: const BorderSide(color: Colors.white, width: 0.4),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
-        borderSide: const BorderSide(color: Color(0x33000000), width: 1),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: const BorderSide(color: Color(0xFF288CE9), width: 1.5),
+        borderSide: const BorderSide(color: Colors.black, width: 0.4),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -47,19 +42,18 @@ class AppTheme {
     fontFamily: 'Satoshi',
     sliderTheme: SliderThemeData(
       overlayShape: SliderComponentShape.noOverlay,
-      activeTrackColor: const Color(0xffB7B7B7),
+      activeTrackColor: Color(0xffB7B7B7),
       inactiveTrackColor: Colors.grey.withOpacity(0.3),
-      thumbColor: const Color(0xffB7B7B7),
+      thumbColor: Color(0xffB7B7B7),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.transparent,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       hintStyle: const TextStyle(
-        fontSize: 16,
         color: Color(0xffA7A7A7),
         fontWeight: FontWeight.w500,
       ),
+      contentPadding: const EdgeInsets.all(30),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
         borderSide: const BorderSide(color: Colors.white, width: 0.4),
@@ -67,10 +61,6 @@ class AppTheme {
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
         borderSide: const BorderSide(color: Colors.white, width: 0.4),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: const BorderSide(color: Color(0xFF288CE9), width: 1.5),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
