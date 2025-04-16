@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spotify_clone_tr/common/widgets/app_bar.dart';
 import 'package:spotify_clone_tr/common/widgets/basic_app_button.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_vectors.dart';
+import 'package:spotify_clone_tr/core/configs/theme/custom_text_field.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
 import 'package:spotify_clone_tr/domain/usecases/signin_usecase.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signup.dart';
@@ -25,52 +26,18 @@ class SigninPage extends StatelessWidget {
   }
 
   Widget _emailField(BuildContext context) {
-    return Container(
-      //width: 334,
-      height: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: Colors.black.withOpacity(0.3), width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          controller: _email,
-          decoration: InputDecoration(
-            hintText: 'Enter Email',
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 18,
-            ),
-            border: InputBorder.none,
-          ).applyDefaults(Theme.of(context).inputDecorationTheme),
-        ),
-      ),
+    return CustomTextField(
+      controller: _email,
+      hintText: 'Enter Email',
+      //context: context,
     );
   }
 
   Widget _passwordField(BuildContext context) {
-    return Container(
-      //width: 334,
-      height: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: Colors.black.withOpacity(0.3), width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          controller: _password,
-          decoration: InputDecoration(
-            hintText: 'Password',
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 18,
-            ),
-            border: InputBorder.none,
-          ).applyDefaults(Theme.of(context).inputDecorationTheme),
-        ),
-      ),
+    return CustomTextField(
+      controller: _password,
+      hintText: 'Password',
+      //context: context,
     );
   }
 

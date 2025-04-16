@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spotify_clone_tr/common/widgets/app_bar.dart';
 import 'package:spotify_clone_tr/common/widgets/basic_app_button.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_vectors.dart';
+import 'package:spotify_clone_tr/core/configs/theme/custom_text_field.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
 import 'package:spotify_clone_tr/domain/usecases/signin_usecase.dart';
 import 'package:spotify_clone_tr/domain/usecases/signup_usecase.dart';
@@ -27,63 +28,26 @@ class SignupPage extends StatelessWidget {
   }
 
   Widget _fullNameField(BuildContext context) {
-    return Container(
-      width: 334,
-      height: 80,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _fullName,
-        style: const TextStyle(fontSize: 22), // Adjust font size
-        decoration: InputDecoration(
-          hintText: 'Full Name',
-          hintStyle: const TextStyle(fontSize: 22), // Adjust hint text size
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 20),
-        ),
-      ),
+    return CustomTextField(
+      controller: _fullName,
+      hintText: 'Full Name',
+      //context: context,
     );
   }
 
   Widget _emailField(BuildContext context) {
-    return Container(
-      width: 334,
-      height: 80,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _email,
-        textAlign: TextAlign.start,
-        decoration: InputDecoration(
-          hintText: 'Enter Email',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 20),
-        ),
-      ),
+    return CustomTextField(
+      controller: _email,
+      hintText: 'Enter Email',
+      // context: context,
     );
   }
 
   Widget _passwordField(BuildContext context) {
-    return Container(
-      width: 334,
-      height: 80,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _password,
-        textAlign: TextAlign.start,
-        decoration: InputDecoration(
-          hintText: 'Password',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 20),
-        ),
-      ),
+    return CustomTextField(
+      controller: _password,
+      hintText: 'Password',
+      //context: context,
     );
   }
 
