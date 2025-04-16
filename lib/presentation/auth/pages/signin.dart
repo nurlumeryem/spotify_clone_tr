@@ -25,20 +25,52 @@ class SigninPage extends StatelessWidget {
   }
 
   Widget _emailField(BuildContext context) {
-    return TextField(
-      controller: _email,
-      decoration: const InputDecoration(
-        hintText: 'Enter Email',
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
+    return Container(
+      //width: 334,
+      height: 80,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Colors.black.withOpacity(0.3), width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: _email,
+          decoration: InputDecoration(
+            hintText: 'Enter Email',
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 18,
+            ),
+            border: InputBorder.none,
+          ).applyDefaults(Theme.of(context).inputDecorationTheme),
+        ),
+      ),
     );
   }
 
   Widget _passwordField(BuildContext context) {
-    return TextField(
-      controller: _password,
-      decoration: const InputDecoration(
-        hintText: 'Password',
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
+    return Container(
+      //width: 334,
+      height: 80,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Colors.black.withOpacity(0.3), width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: _password,
+          decoration: InputDecoration(
+            hintText: 'Password',
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 18,
+            ),
+            border: InputBorder.none,
+          ).applyDefaults(Theme.of(context).inputDecorationTheme),
+        ),
+      ),
     );
   }
 
