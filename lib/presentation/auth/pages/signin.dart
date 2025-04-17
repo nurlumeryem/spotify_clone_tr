@@ -26,19 +26,11 @@ class SigninPage extends StatelessWidget {
   }
 
   Widget _emailField(BuildContext context) {
-    return CustomTextField(
-      controller: _email,
-      hintText: 'Enter Email',
-      //context: context,
-    );
+    return CustomTextField(controller: _email, hintText: 'E-posta Adresi');
   }
 
   Widget _passwordField(BuildContext context) {
-    return CustomTextField(
-      controller: _password,
-      hintText: 'Password',
-      //context: context,
-    );
+    return CustomTextField(controller: _password, hintText: 'Şifre');
   }
 
   Widget _sigUpText(BuildContext context) {
@@ -48,7 +40,7 @@ class SigninPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            'Not A Member? ',
+            'Üye Değil Misiniz? ',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
           TextButton(
@@ -56,7 +48,7 @@ class SigninPage extends StatelessWidget {
               context.go('/signup');
             },
             child: const Text(
-              'Register Now',
+              'Hemen Kayıt Ol',
               style: TextStyle(color: Color(0xFF288CE9)),
             ),
           ),

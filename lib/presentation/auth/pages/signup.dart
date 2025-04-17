@@ -21,34 +21,22 @@ class SignupPage extends StatelessWidget {
 
   Widget _registerText() {
     return const Text(
-      'Register',
+      'Kayıt Ol',
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
       textAlign: TextAlign.center,
     );
   }
 
   Widget _fullNameField(BuildContext context) {
-    return CustomTextField(
-      controller: _fullName,
-      hintText: 'Full Name',
-      //context: context,
-    );
+    return CustomTextField(controller: _fullName, hintText: 'Ad Soyad');
   }
 
   Widget _emailField(BuildContext context) {
-    return CustomTextField(
-      controller: _email,
-      hintText: 'Enter Email',
-      // context: context,
-    );
+    return CustomTextField(controller: _email, hintText: 'E-posta Adresi');
   }
 
   Widget _passwordField(BuildContext context) {
-    return CustomTextField(
-      controller: _password,
-      hintText: 'Password',
-      //context: context,
-    );
+    return CustomTextField(controller: _password, hintText: 'Şifre');
   }
 
   Widget _siginText(BuildContext context) {
@@ -58,7 +46,7 @@ class SignupPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            'Do you have an account? ',
+            'Hesabınız var mı? ',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
           TextButton(
@@ -66,7 +54,7 @@ class SignupPage extends StatelessWidget {
               context.go('/signin');
             },
             child: const Text(
-              'Sign In',
+              'Giriş Yap',
               style: TextStyle(color: Color(0xFF288CE9)),
             ),
           ),
@@ -117,7 +105,7 @@ class SignupPage extends StatelessWidget {
                   },
                 );
               },
-              title: 'Create Account',
+              title: 'Hesap Oluştur',
               backgroundColor: const Color(0xFF42C83C),
               height: 73,
               textStyle: const TextStyle(
