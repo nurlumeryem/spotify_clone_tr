@@ -9,15 +9,26 @@ import 'package:spotify_clone_tr/presentation/bloc/mode_bloc/mode_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  debugDisableShadows = true;
 
+  // Hata yakalama mekanizmasını geliştiriyoruz
   FlutterError.onError = (details) {
-    debugPrint(details.exceptionAsString());
+    FlutterError.presentError(
+      details,
+    ); // Hatayı konsola yazdırırken ayrıca kullanıcıya da gösterebilirsiniz
   };
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Firebase'i başlatıyoruz
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print("Firebase initialized successfully.");
+  } catch (e) {
+    print("Error initializing Firebase: $e");
+  }
 
   setupLocator(); // GetIt kurulumun
+
   runApp(const AppRoot());
 }
 
@@ -39,10 +50,10 @@ class MyApp extends StatelessWidget {
 
     return BlocBuilder<ModeBloc, ModeState>(
       builder: (context, state) {
+        // Temayı dinamik olarak belirliyoruz
         return MaterialApp.router(
           theme:
               state.mode == AppMode.dark ? ThemeData.dark() : ThemeData.light(),
-
           debugShowCheckedModeBanner: false,
           routerConfig: router,
         );
