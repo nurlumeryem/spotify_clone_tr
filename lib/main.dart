@@ -1,17 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone_tr/core/configs/app_config.dart';
 import 'package:spotify_clone_tr/core/configs/router/app_router.dart';
+import 'package:spotify_clone_tr/firebase_options.dart';
 import 'package:spotify_clone_tr/presentation/bloc/mode_bloc/mode_bloc.dart';
 import 'package:spotify_clone_tr/presentation/bloc/mode_bloc/mode_state.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   debugDisableShadows = true;
 
   FlutterError.onError = (details) {
     debugPrint(details.exceptionAsString());
   };
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   setupLocator(); // GetIt kurulumun
   runApp(const AppRoot());
