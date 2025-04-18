@@ -1,11 +1,14 @@
+import org.gradle.api.tasks.Delete
+import org.gradle.api.file.Directory
+
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.15'  // Firebase için
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
+        classpath("com.google.gms:google-services:4.3.15")  // Firebase için
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
     }
 }
 
@@ -15,7 +18,6 @@ allprojects {
         mavenCentral()
     }
 }
-
 
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
 rootProject.layout.buildDirectory.value(newBuildDir)
