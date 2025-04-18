@@ -83,18 +83,17 @@ class SigninPage extends StatelessWidget {
                     password: _password.text.toString(),
                   ),
                 );
-                result.fold(
-                  (l) {
-                    var snackbar = SnackBar(
-                      content: Text(l),
-                      behavior: SnackBarBehavior.floating,
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                  },
-                  (r) {
-                    context.go('/home');
-                  },
-                );
+                if (result.isSuccess) {
+                  // Başarı durumunda home ekranına yönlendirelim
+                  context.go('/home');
+                } else {
+                  // Hata durumunda hata mesajını gösterelim
+                  var snackbar = SnackBar(
+                    content: Text(result.error ?? "Bir hata oluştu."),
+                    behavior: SnackBarBehavior.floating,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                }
               },
               title: 'Oturum Aç',
               backgroundColor: const Color(0xFF42C83C),

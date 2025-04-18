@@ -6,10 +6,7 @@ import 'package:spotify_clone_tr/common/widgets/basic_app_button.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_vectors.dart';
 import 'package:spotify_clone_tr/core/configs/theme/custom_text_field.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
-import 'package:spotify_clone_tr/domain/usecases/signin_usecase.dart';
 import 'package:spotify_clone_tr/domain/usecases/signup_usecase.dart';
-import 'package:spotify_clone_tr/presentation/auth/pages/signin.dart';
-
 import 'package:spotify_clone_tr/service_locator.dart';
 
 class SignupPage extends StatelessWidget {
@@ -92,18 +89,17 @@ class SignupPage extends StatelessWidget {
                     password: _password.text.toString(),
                   ),
                 );
-                result.fold(
-                  (l) {
-                    var snackbar = SnackBar(
-                      content: Text(l),
-                      behavior: SnackBarBehavior.floating,
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                  },
-                  (r) {
-                    context.go('/signin');
-                  },
-                );
+                if (result.isSuccess) {
+                  // Başarı durumunda giriş sayfasına yönlendir
+                  context.go('/signin');
+                } else {
+                  // Hata durumunda snackbar göster
+                  var snackbar = SnackBar(
+                    content: Text(result.error ?? "Bir hata oluştu."),
+                    behavior: SnackBarBehavior.floating,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                }
               },
               title: 'Hesap Oluştur',
               backgroundColor: const Color(0xFF42C83C),
