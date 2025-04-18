@@ -12,9 +12,9 @@ void main() async {
 
   // Hata yakalama mekanizmasını geliştiriyoruz
   FlutterError.onError = (details) {
-    FlutterError.presentError(
-      details,
-    ); // Hatayı konsola yazdırırken ayrıca kullanıcıya da gösterebilirsiniz
+    FlutterError.presentError(details);
+    // Hata mesajını kullanıcıya gösterebilirsiniz
+    // Example: showToast("Something went wrong!");
   };
 
   // Firebase'i başlatıyoruz
@@ -25,9 +25,11 @@ void main() async {
     print("Firebase initialized successfully.");
   } catch (e) {
     print("Error initializing Firebase: $e");
+    // Firebase hatası durumunda kullanıcıya bir mesaj gösterebilirsiniz
+    // Example: showToast("Firebase initialization failed.");
   }
 
-  setupLocator(); // GetIt kurulumun
+  setupLocator(); // GetIt kurulumunu burada yapıyoruz
 
   runApp(const AppRoot());
 }
