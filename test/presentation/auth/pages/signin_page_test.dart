@@ -3,27 +3,39 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signin.dart';
 
 void main() {
-  // 1. setUpAll (isteğe bağlı)
+  // Tüm testlerden önce bir kez çalışır
   setUpAll(() {
     print('Test başladı');
   });
 
-  // 2. setUp (her test öncesi çalışır)
+  // Her testten önce çalışır
   setUp(() {
     print('Yeni test başlıyor');
   });
 
-  // 3. Testler
-  testWidgets('SigninPage renders correctly', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: SigninPage()));
+  group('SigninPage Widget Tests', () {
+    testWidgets('Signin button is rendered and displays correct text', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(MaterialApp(home: SigninPage()));
 
-    // Örneğin, başlık widget'ını kontrol et
-    expect(find.text('Oturum Aç'), findsOneWidget);
-  });
+      final signinButton = find.byKey(const Key('signinButton'));
 
-  // Başka bir test
-  testWidgets('SigninPage has email field', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: SigninPage()));
-    expect(find.byKey(Key('emailField')), findsOneWidget);
+      // Buton görünür mü?
+      expect(signinButton, findsOneWidget);
+
+      // Butonun içinde "Oturum Aç" yazıyor mu?
+      expect(
+        find.descendant(of: signinButton, matching: find.text('Oturum Aç')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('SigninPage has email field', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: SigninPage()));
+
+      // Email alanı var mı?
+      expect(find.byKey(const Key('emailField')), findsOneWidget);
+    });
   });
 }

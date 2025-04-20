@@ -26,11 +26,19 @@ class SigninPage extends StatelessWidget {
   }
 
   Widget _emailField(BuildContext context) {
-    return CustomTextField(controller: _email, hintText: 'E-posta Adresi');
+    return CustomTextField(
+      key: const Key('emailField'),
+      controller: _email,
+      hintText: 'E-posta Adresi',
+    );
   }
 
   Widget _passwordField(BuildContext context) {
-    return CustomTextField(controller: _password, hintText: 'Şifre');
+    return CustomTextField(
+      key: const Key('passwordField'),
+      controller: _password,
+      hintText: 'Şifre',
+    );
   }
 
   Widget _sigUpText(BuildContext context) {
@@ -76,6 +84,7 @@ class SigninPage extends StatelessWidget {
             _passwordField(context),
             const SizedBox(height: 20),
             BasicAppButton(
+              key: const Key('signinButton'),
               onPressed: () async {
                 var result = await sl<SigninUseCase>().call(
                   params: CreateUserReq(
