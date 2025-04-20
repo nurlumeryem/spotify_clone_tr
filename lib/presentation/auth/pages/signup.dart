@@ -25,15 +25,27 @@ class SignupPage extends StatelessWidget {
   }
 
   Widget _fullNameField(BuildContext context) {
-    return CustomTextField(controller: _fullName, hintText: 'Ad Soyad');
+    return CustomTextField(
+      key: const Key('signupFullNameField'),
+      controller: _fullName,
+      hintText: 'Ad Soyad',
+    );
   }
 
   Widget _emailField(BuildContext context) {
-    return CustomTextField(controller: _email, hintText: 'E-posta Adresi');
+    return CustomTextField(
+      key: const Key('signupEmailField'),
+      controller: _email,
+      hintText: 'E-posta Adresi',
+    );
   }
 
   Widget _passwordField(BuildContext context) {
-    return CustomTextField(controller: _password, hintText: 'Şifre');
+    return CustomTextField(
+      key: const Key('signupPasswordField'),
+      controller: _password,
+      hintText: 'Şifre',
+    );
   }
 
   Widget _siginText(BuildContext context) {
@@ -81,6 +93,7 @@ class SignupPage extends StatelessWidget {
             _passwordField(context),
             const SizedBox(height: 20),
             BasicAppButton(
+              key: const Key('signupButton'),
               onPressed: () async {
                 var result = await sl<SignupUseCase>().call(
                   params: CreateUserReq(

@@ -35,7 +35,7 @@ void main() {
       await tester.pumpWidget(MaterialApp(home: SigninPage()));
 
       // Email alanı var mı?
-      expect(find.byKey(const Key('emailField')), findsOneWidget);
+      expect(find.byKey(const Key('signinEmailField')), findsOneWidget);
     });
   });
 }

@@ -27,7 +27,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _emailField(BuildContext context) {
     return CustomTextField(
-      key: const Key('emailField'),
+      key: const Key('signinEmailField'),
       controller: _email,
       hintText: 'E-posta Adresi',
     );
@@ -35,7 +35,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _passwordField(BuildContext context) {
     return CustomTextField(
-      key: const Key('passwordField'),
+      key: const Key('signinPasswordField'),
       controller: _password,
       hintText: 'Şifre',
     );

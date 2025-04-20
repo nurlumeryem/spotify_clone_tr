@@ -14,11 +14,16 @@ class AppRouter {
         debugLogDiagnostics: true,
         initialLocation: '/',
         routes: [
+          // Ana Sayfa
           GoRoute(path: '/', builder: (context, state) => const SplashPage()),
+
+          // Onboarding Sayfası
           GoRoute(
             path: '/onboarding',
             builder: (context, state) => const OnboardingScreen(),
           ),
+
+          // Kayıt Ol / Giriş Yap Sayfası
           GoRoute(
             path: '/signupOrsigninPage',
             pageBuilder:
@@ -40,6 +45,8 @@ class AppRouter {
                   },
                 ),
           ),
+
+          // Kayıt Ol Sayfası
           GoRoute(
             path: '/signup',
             pageBuilder:
@@ -70,33 +77,14 @@ class AppRouter {
                   },
                 ),
           ),
+
+          // Giriş Yap Sayfası
           GoRoute(
             path: '/signin',
             pageBuilder:
                 (context, state) => CustomTransitionPage<void>(
                   key: state.pageKey,
                   child: SigninPage(),
-                  transitionsBuilder: (
-                    context,
-                    animation,
-                    secondaryAnimation,
-                    child,
-                  ) {
-                    return FadeTransition(
-                      opacity: CurveTween(
-                        curve: Curves.easeInOut,
-                      ).animate(animation),
-                      child: child,
-                    );
-                  },
-                ),
-          ),
-          GoRoute(
-            path: '/signup',
-            pageBuilder:
-                (context, state) => CustomTransitionPage<void>(
-                  key: state.pageKey,
-                  child: SignupPage(),
                   transitionsBuilder: (
                     context,
                     animation,
