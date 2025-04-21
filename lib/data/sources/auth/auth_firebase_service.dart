@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spotify_clone_tr/core/utils/result.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
 import 'package:spotify_clone_tr/data/models/signin_user_req.dart';
-// Result tipini import edin
 
 abstract class AuthFirebaseService {
   Future<Result<String>> signin(
