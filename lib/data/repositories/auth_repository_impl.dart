@@ -1,29 +1,19 @@
 import 'package:spotify_clone_tr/core/utils/result.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
+import 'package:spotify_clone_tr/data/models/signin_user_req.dart';
+import 'package:spotify_clone_tr/data/sources/auth/auth_firebase_service.dart';
 import 'package:spotify_clone_tr/domain/repositories/auth_repository.dart';
+import 'package:spotify_clone_tr/service_locator.dart';
 // Result sınıfını ekliyoruz
 
-class AuthRepositoryImpl implements AuthRepository {
+class AuthRepositoryImpl extends AuthRepository {
   @override
-  Future<Result<void>> signup(CreateUserReq params) async {
-    try {
-      // API veya veri işleme işlemi yapılır.
-      // Örneğin başarılı bir kayıt işlemi:
-      return Result.success(null); // Başarılı işlem sonucu
-    } catch (e) {
-      // Eğer bir hata oluşursa, hata mesajı ile Result.failure döneriz
-      return Result.failure("Signup failed: ${e.toString()}");
-    }
+  Future<Result<void>> signin(SigninUserReq signinUserReq) async {
+    return await sl<AuthFirebaseService>().signin(signinUserReq);
   }
 
   @override
-  Future<Result<void>> signin(CreateUserReq params) async {
-    try {
-      // API veya veri işleme işlemi yapılır.
-      return Result.success(null); // Başarılı işlem sonucu
-    } catch (e) {
-      // Eğer bir hata oluşursa, hata mesajı ile Result.failure döneriz
-      return Result.failure("Signin failed: ${e.toString()}");
-    }
+  Future<Result<void>> signup(CreateUserReq createUserReq) async {
+    return await sl<AuthFirebaseService>().signup(createUserReq);
   }
 }

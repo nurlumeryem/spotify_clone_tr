@@ -6,6 +6,7 @@ import 'package:spotify_clone_tr/common/widgets/basic_app_button.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_vectors.dart';
 import 'package:spotify_clone_tr/core/configs/theme/custom_text_field.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
+import 'package:spotify_clone_tr/data/models/signin_user_req.dart';
 import 'package:spotify_clone_tr/domain/usecases/signin_usecase.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signup.dart';
 
@@ -87,7 +88,7 @@ class SigninPage extends StatelessWidget {
               key: const Key('signinButton'),
               onPressed: () async {
                 var result = await sl<SigninUseCase>().call(
-                  params: CreateUserReq(
+                  params: SigninUserReq(
                     email: _email.text.toString(),
                     password: _password.text.toString(),
                   ),

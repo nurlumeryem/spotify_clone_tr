@@ -7,13 +7,13 @@ import 'package:spotify_clone_tr/domain/usecases/signup_usecase.dart';
 
 final sl = GetIt.instance;
 Future<void> initializeDependencies() async {
-  // AuthFirebaseService
+  // AuthFirebaseService'i kaydediyoruz
   sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceImpl());
 
-  sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceImpl());
+  // AuthRepository'i kaydederken AuthFirebaseService'i de geçiriyoruz
+  sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
 
   // UseCases -> Bağımlılığı: AuthRepository
   sl.registerSingleton<SignupUseCase>(SignupUseCase(sl<AuthRepository>()));
-
-  sl.registerSingleton<SigninUseCase>(SigninUseCase(sl<AuthRepository>()));
+  sl.registerSingleton<SigninUseCase>(SigninUseCase());
 }
