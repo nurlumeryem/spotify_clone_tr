@@ -6,6 +6,7 @@ import 'package:spotify_clone_tr/core/configs/router/app_router.dart';
 import 'package:spotify_clone_tr/firebase_options.dart';
 import 'package:spotify_clone_tr/presentation/bloc/mode_bloc/mode_bloc.dart';
 import 'package:spotify_clone_tr/presentation/bloc/mode_bloc/mode_state.dart';
+import 'package:spotify_clone_tr/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +30,7 @@ void main() async {
     // Example: showToast("Firebase initialization failed.");
   }
 
-  setupLocator(); // GetIt kurulumunu burada yapıyoruz
-
+  await initializeDependencies();
   runApp(const AppRoot());
 }
 
