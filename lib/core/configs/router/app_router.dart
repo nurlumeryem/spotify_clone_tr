@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signin.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signup.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signup_or_signin.dart';
+import 'package:spotify_clone_tr/presentation/pages/home.dart';
 import 'package:spotify_clone_tr/presentation/pages/onboarding_pages.dart';
 import 'package:spotify_clone_tr/presentation/pages/splash.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +101,7 @@ class AppRouter {
                   },
                 ),
           ),
+          GoRoute(path: '/home', builder: (context, state) => const HomePage()),
         ],
         errorBuilder:
             (context, state) => Scaffold(
