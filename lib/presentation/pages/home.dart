@@ -41,13 +41,13 @@ class _HomePageState extends State<HomePage>
 
   Widget _homeTopCard() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(12.0),
       child: Center(
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Container(
-              width: 334,
+              width: 340,
               height: 118,
               decoration: BoxDecoration(
                 color: const Color(0xFF42C83C),
@@ -103,33 +103,30 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _tabs() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: TabBar(
-        controller: _tabController,
-        isScrollable: true,
-        labelColor: context.isDarkMode ? Colors.white : Colors.black,
-        indicatorColor: AppColors.primary,
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-        tabs: const [
-          Text(
-            'Yeniler',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          ),
-          Text(
-            'Videolar',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          ),
-          Text(
-            'Sanatçılar',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          ),
-          Text(
-            'Podcastler',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          ),
-        ],
-      ),
+    return TabBar(
+      controller: _tabController,
+      isScrollable: true,
+      labelColor: context.isDarkMode ? Colors.white : Colors.black,
+      indicatorColor: AppColors.primary,
+      padding: const EdgeInsets.only(left: 24, top: 40, bottom: 40),
+      tabs: const [
+        Text(
+          'Yeniler',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+        ),
+        Text(
+          'Videolar',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+        ),
+        Text(
+          'Sanatçılar',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+        ),
+        Text(
+          'Podcastler',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+        ),
+      ],
     );
   }
 }
