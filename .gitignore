@@ -1,6 +1,5 @@
 # Miscellaneous
 *.class
-.env
 *.log
 *.pyc
 *.swp

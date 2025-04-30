@@ -3,18 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:spotify_clone_tr/firebase_options.dart';
 import 'package:spotify_clone_tr/service_locator.dart';
+import 'package:supabase/supabase.dart';
+
+late final SupabaseClient supabase;
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: ".env");
 
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+  supabase = SupabaseClient(
+    dotenv.env['SUPABASE_URL']!,
+    dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
   FlutterError.onError = (details) {

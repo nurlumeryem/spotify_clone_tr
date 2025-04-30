@@ -1,11 +1,12 @@
 import 'dart:io';
-
 import 'package:spotify_clone_tr/core/utils/result.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase/supabase.dart';
 
 class SupabaseMusicService {
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final SupabaseClient supabase;
   final String _bucketName = 'music_files';
+
+  SupabaseMusicService(this.supabase);
 
   // Müzik yükleme
   Future<Result<String>> uploadMusic(
@@ -18,16 +19,22 @@ class SupabaseMusicService {
       final String filePath =
           'user_$userId/${DateTime.now().millisecondsSinceEpoch}_${file.path.split('/').last}';
 
-      // Storage'a yükleme
-      await _supabase.storage.from(_bucketName).upload(filePath, file);
+      // Dosyayı Supabase Storage'a yükle
+      final storageResponse = await supabase.storage
+          .from(_bucketName)
+          .upload(filePath, file);
+
+      if (storageResponse.isEmpty) {
+        return Result.failure("Dosya yüklenemedi.");
+      }
 
       // Public URL al
-      final String publicUrl = _supabase.storage
+      final String publicUrl = supabase.storage
           .from(_bucketName)
           .getPublicUrl(filePath);
 
-      // Veritabanına kaydetme
-      final response = await _supabase.from('songs').insert({
+      // Metadata'yı songs tablosuna kaydet
+      final response = await supabase.from('songs').insert({
         'title': title,
         'artist': artist,
         'file_path': filePath,
@@ -42,44 +49,40 @@ class SupabaseMusicService {
     }
   }
 
-  // Müzik listesi getirme
+  // Tüm müzikleri getir
   Future<Result<List<Map<String, dynamic>>>> getMusicList() async {
     try {
-      final response = await _supabase
+      final response = await supabase
           .from('songs')
           .select('*')
           .order('created_at', ascending: false);
 
-      return Result.success(response);
+      return Result.success(response as List<Map<String, dynamic>>);
     } catch (e) {
       return Result.failure(e.toString());
     }
   }
 
-  // Kullanıcı müziklerini getirme
+  // Kullanıcıya özel müzikleri getir
   Future<Result<List<Map<String, dynamic>>>> getUserMusic(String userId) async {
     try {
-      final response = await _supabase
+      final response = await supabase
           .from('songs')
           .select('*')
           .eq('user_id', userId)
           .order('created_at', ascending: false);
 
-      return Result.success(response);
+      return Result.success(response as List<Map<String, dynamic>>);
     } catch (e) {
       return Result.failure(e.toString());
     }
   }
 
-  // Müzik silme
+  // Müzik silme işlemi
   Future<Result<void>> deleteMusic(String filePath, String songId) async {
     try {
-      // Storage'dan dosyayı sil
-      await _supabase.storage.from(_bucketName).remove([filePath]);
-
-      // Veritabanından kaydı sil
-      await _supabase.from('songs').delete().eq('id', songId);
-
+      await supabase.storage.from(_bucketName).remove([filePath]);
+      await supabase.from('songs').delete().eq('id', songId);
       return Result.success(null);
     } catch (e) {
       return Result.failure(e.toString());

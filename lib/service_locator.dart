@@ -6,21 +6,30 @@ import 'package:spotify_clone_tr/domain/repositories/auth_repository.dart';
 import 'package:spotify_clone_tr/domain/usecases/signin_usecase.dart';
 import 'package:spotify_clone_tr/domain/usecases/signup_usecase.dart';
 import 'package:spotify_clone_tr/service/music_service.dart';
+import 'package:supabase/supabase.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // .env için gerekli
 
 final sl = GetIt.instance;
+
 Future<void> initializeDependencies() async {
-  // AuthFirebaseService'i kaydediyoruz
+  // SupabaseClient'ı manuel oluştur ve kaydet
+  sl.registerSingleton<SupabaseClient>(
+    SupabaseClient(
+      dotenv.env['SUPABASE_URL']!,
+      dotenv.env['SUPABASE_ANON_KEY']!,
+    ),
+  );
+
+  // Auth servisi
   sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceImpl());
 
   sl.registerSingleton<AppRouter>(AppRouter());
 
-  // AuthRepository'i kaydederken AuthFirebaseService'i de geçiriyoruz
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
 
-  // UseCases -> Bağımlılığı: AuthRepository
   sl.registerSingleton<SignupUseCase>(SignupUseCase(sl<AuthRepository>()));
   sl.registerSingleton<SigninUseCase>(SigninUseCase());
 
-  // SupabaseMusicService'i
-  sl.registerSingleton<SupabaseMusicService>(SupabaseMusicService());
+  // Music service, artık SupabaseClient'e bağımlı olacak
+  sl.registerSingleton<SupabaseMusicService>(SupabaseMusicService(sl()));
 }
