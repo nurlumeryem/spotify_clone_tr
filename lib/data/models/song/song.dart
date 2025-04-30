@@ -1,31 +1,40 @@
-class Song {
-  final int id;
-  final String title;
-  final String artist;
-  final String filePath;
-  final String url;
-  final String userId;
-  final DateTime createdAt;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 
-  Song({
-    required this.id,
+class SongModel {
+  String? title;
+  String? artist;
+  num? duration;
+  Timestamp? releaseDate;
+  bool? isFavorite;
+  String? songId;
+
+  SongModel({
     required this.title,
     required this.artist,
-    required this.filePath,
-    required this.url,
-    required this.userId,
-    required this.createdAt,
+    required this.duration,
+    required this.releaseDate,
+    required this.isFavorite,
+    required this.songId,
   });
 
-  factory Song.fromJson(Map<String, dynamic> json) {
-    return Song(
-      id: json['id'],
-      title: json['title'],
-      artist: json['artist'],
-      filePath: json['file_path'],
-      url: json['url'],
-      userId: json['user_id'],
-      createdAt: DateTime.parse(json['created_at']),
+  SongModel.fromJson(Map<String, dynamic> data) {
+    title = data['title'];
+    artist = data['artist'];
+    duration = data['duration'];
+    releaseDate = data['releaseDate'];
+  }
+}
+
+extension SongModelX on SongModel {
+  SongEntity toEntity() {
+    return SongEntity(
+      title: title!,
+      artist: artist!,
+      duration: duration!,
+      releaseDate: releaseDate!,
+      isFavorite: isFavorite!,
+      songId: songId!,
     );
   }
 }
