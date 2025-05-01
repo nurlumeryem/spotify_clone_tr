@@ -42,5 +42,5 @@ Future<void> initializeDependencies() async {
   // Music service, artık SupabaseClient'e bağımlı olacak
   sl.registerSingleton<SupabaseMusicService>(SupabaseMusicService(sl()));
 
-  sl.registerSingleton<GetNewsSongsUsecase>(GetNewsSongsUsecase());
+  sl.registerSingleton<GetNewsSongsUseCase>(GetNewsSongsUseCase());
 }
