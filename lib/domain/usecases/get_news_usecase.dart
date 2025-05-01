@@ -4,7 +4,7 @@ import 'package:spotify_clone_tr/data/repositories/songs_repository_impl.dart';
 
 import 'package:spotify_clone_tr/service_locator.dart';
 
-class GetNewsUsecase implements UseCase<Result, dynamic> {
+class GetNewsSongsUsecase implements UseCase<Result, dynamic> {
   @override
   Future<Result<void>> call({params}) async {
     return await sl<SongRepositoryImpl>().getNewsSongs();
