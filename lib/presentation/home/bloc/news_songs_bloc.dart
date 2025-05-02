@@ -6,8 +6,7 @@ import 'news_songs_event.dart';
 class NewsSongsBloc extends Bloc<NewsSongsEvent, NewsSongsState> {
   final GetNewsSongsUseCase getNewsSongsUseCase;
 
-  NewsSongsBloc({required this.getNewsSongsUseCase})
-    : super(NewsSongsLoading()) {
+  NewsSongsBloc(this.getNewsSongsUseCase) : super(NewsSongsLoading()) {
     on<FetchNewsSongs>((event, emit) async {
       emit(NewsSongsLoading());
 
