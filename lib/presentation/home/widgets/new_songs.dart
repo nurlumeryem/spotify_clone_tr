@@ -18,7 +18,10 @@ class NewSongs extends StatelessWidget {
         child: BlocBuilder<NewsSongsBloc, NewsSongsState>(
           builder: (context, state) {
             if (state is NewsSongsLoading) {
-              return CircularProgressIndicator();
+              return Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              );
             }
             if (state is NewsSongsLoaded) {
               return _songs(state.songs);
@@ -34,7 +37,10 @@ class NewSongs extends StatelessWidget {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
-        return Column();
+        return Column(children: [
+            
+          ],
+        );
       },
       separatorBuilder: (context, index) => SizedBox(width: 14),
       itemCount: songs.length,
