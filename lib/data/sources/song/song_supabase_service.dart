@@ -22,12 +22,17 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
           .order('created_at', ascending: false)
           .limit(3);
 
+      print('🍎 RAW from Supabase: $response');
+
       final songs =
           (response as List).map((json) {
+            print('🔹 mapping json keys: ${json.keys.toList()}');
             final model = SongModel.fromJson(json);
             model.songId = json['id'];
             return model.toEntity();
           }).toList();
+
+      print('🎉 MAPPED song count: ${songs.length}');
 
       return Result.success(songs);
     } catch (e) {

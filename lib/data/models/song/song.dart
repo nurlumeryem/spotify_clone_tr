@@ -21,11 +21,14 @@ class SongModel {
   });
 
   SongModel.fromJson(Map<String, dynamic> data) {
-    title = data['title'];
-    artist = data['artist'];
-    duration = data['duration'];
-    releaseDate = data['releaseDate'];
-    coverFileName = data['coverFileName'];
+    title = data['title'] as String?;
+    artist = data['artist'] as String?;
+    duration = data['duration'] as num?;
+    releaseDate = data['created_at'] as Timestamp?;
+
+    coverFileName = data['file_path'] as String?;
+    isFavorite = false;
+    songId = data['id']?.toString();
   }
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
 import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_bloc.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_event.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_state.dart';
 import 'package:spotify_clone_tr/service_locator.dart';
 import 'package:spotify_clone_tr/domain/usecases/get_news_usecase.dart';
@@ -13,7 +14,10 @@ class NewSongs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NewsSongsBloc(sl<GetNewsSongsUseCase>()),
+      create:
+          (_) =>
+              NewsSongsBloc(sl<GetNewsSongsUseCase>())..add(FetchNewsSongs()),
+
       child: SizedBox(
         height: 200,
         child: BlocBuilder<NewsSongsBloc, NewsSongsState>(
@@ -56,12 +60,10 @@ class NewSongs extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
 
                   child: Image.network(
-                    '${AppURLs.coverStorage}${song.coverFileName}',
+                    // song.coverFileName burada hâlâ fullPath; helper bunu dönüştürecek
+                    AppURLs.coverFromFullPath(song.coverFileName),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
-                      print(
-                        'HATA: Görsel yüklenemedi -> ${AppURLs.coverStorage}${song.coverFileName}',
-                      );
                       return Image.network(
                         AppURLs.defaultImage,
                         fit: BoxFit.cover,
