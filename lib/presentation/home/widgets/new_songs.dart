@@ -60,8 +60,8 @@ class NewSongs extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
 
                   child: Image.network(
-                    // song.coverFileName burada hâlâ fullPath; helper bunu dönüştürecek
-                    AppURLs.coverFromFullPath(song.coverFileName),
+                    // artık prefix yok, direkt signed URL
+                    song.coverFileName ?? AppURLs.defaultImage,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Image.network(
