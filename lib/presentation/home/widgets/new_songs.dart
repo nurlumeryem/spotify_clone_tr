@@ -13,9 +13,6 @@ class NewSongs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(
-      'NewSongs widget: BlocProvider create çağrıldı, NewsSongsBloc oluşturuluyor ve FetchNewsSongs event_i ekleniyor.',
-    );
     return BlocProvider(
       create:
           (_) =>
@@ -28,11 +25,10 @@ class NewSongs extends StatelessWidget {
             if (state is NewsSongsLoading) {
               return Container(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               );
             }
             if (state is NewsSongsLoaded) {
-              print('Gelen şarkı sayısı: ${state.songs.length}');
               return _songs(state.songs);
             }
             if (state is NewsSongsLoadFailure) {
@@ -54,8 +50,6 @@ class NewSongs extends StatelessWidget {
       itemBuilder: (context, index) {
         final song = songs[index];
 
-        print('Cover URL: ${song.coverFileName}');
-
         return SizedBox(
           width: 160,
           child: Column(
@@ -73,22 +67,11 @@ class NewSongs extends StatelessWidget {
                     Uri.encodeFull(song.coverFileName ?? AppURLs.defaultImage),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
-                      print('Image.network (ana URL) error: $error');
-                      print('Image.network (ana URL) stackTrace: $stackTrace');
                       return Image.network(
                         AppURLs.defaultImage,
                         fit: BoxFit.cover,
                         errorBuilder: (context2, error2, stackTrace2) {
-                          print(
-                            'Image.network (varsayılan URL) error: $error2',
-                          );
-                          print(
-                            'Image.network (varsayılan URL) stackTrace: $stackTrace2',
-                          );
-                          return const Icon(
-                            Icons.broken_image,
-                            size: 50,
-                          ); // Hata durumunda bir ikon göster
+                          return const Icon(Icons.broken_image, size: 50);
                         },
                       );
                     },
