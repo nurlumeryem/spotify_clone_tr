@@ -59,12 +59,15 @@ class NewSongs extends StatelessWidget {
                   width: 160,
                   height: 160,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(30),
                   ),
                   clipBehavior: Clip.hardEdge,
-
                   child: Image.network(
-                    Uri.encodeFull(song.coverFileName ?? AppURLs.defaultImage),
+                    Uri.encodeFull(
+                      song.coverFileName.isNotEmpty
+                          ? song.coverFileName
+                          : AppURLs.defaultImage,
+                    ),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Image.network(
@@ -78,10 +81,16 @@ class NewSongs extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Text(
-                song.title,
-                style: Theme.of(context).textTheme.bodyMedium,
+                songs[index].title,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                songs[index].artist,
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                 overflow: TextOverflow.ellipsis,
               ),
             ],
