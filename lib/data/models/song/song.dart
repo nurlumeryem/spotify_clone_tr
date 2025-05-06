@@ -49,13 +49,13 @@ class SongModel {
 extension SongModelX on SongModel {
   SongEntity toEntity() {
     return SongEntity(
-      title: title!,
-      artist: artist!,
-      duration: duration!,
-      releaseDate: releaseDate!,
-      isFavorite: isFavorite!,
-      songId: songId!,
-      coverFileName: coverFileName!,
+      title: title ?? 'Unknown Title',
+      artist: artist ?? 'Unknown Artist',
+      duration: duration ?? 0,
+      releaseDate: releaseDate ?? Timestamp.now(),
+      isFavorite: isFavorite ?? false,
+      songId: songId ?? '',
+      coverFileName: coverFileName ?? '',
     );
   }
 }

@@ -73,9 +73,23 @@ class NewSongs extends StatelessWidget {
                     Uri.encodeFull(song.coverFileName ?? AppURLs.defaultImage),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
+                      print('Image.network (ana URL) error: $error');
+                      print('Image.network (ana URL) stackTrace: $stackTrace');
                       return Image.network(
                         AppURLs.defaultImage,
                         fit: BoxFit.cover,
+                        errorBuilder: (context2, error2, stackTrace2) {
+                          print(
+                            'Image.network (varsayılan URL) error: $error2',
+                          );
+                          print(
+                            'Image.network (varsayılan URL) stackTrace: $stackTrace2',
+                          );
+                          return const Icon(
+                            Icons.broken_image,
+                            size: 50,
+                          ); // Hata durumunda bir ikon göster
+                        },
                       );
                     },
                   ),

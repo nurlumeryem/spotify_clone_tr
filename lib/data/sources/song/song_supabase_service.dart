@@ -24,17 +24,37 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
 
       print('🍎 RAW from Supabase: $response');
 
-      final songs =
-          (response as List).map((json) {
+      final songFutures =
+          (response as List).map((json) async {
             print('🔹 mapping json keys: ${json.keys.toList()}');
+
+            final String? relativePath = json['file_path'] as String?;
+            String? signedCoverUrl;
+
+            if (relativePath != null && relativePath.isNotEmpty) {
+              try {
+                signedCoverUrl = await supabase.storage
+                    .from('covers')
+                    .createSignedUrl(relativePath, 60 * 5);
+              } catch (e) {
+                print(
+                  'Error creating signed URL for $relativePath in bucket "covers": $e',
+                );
+              }
+            }
+
             final model = SongModel.fromJson(json);
+            model.coverFileName = signedCoverUrl;
+
             return model.toEntity();
           }).toList();
 
-      print('🎉 MAPPED song count: ${songs.length}');
+      final songs = await Future.wait(songFutures);
 
+      print('🎉 MAPPED song count: ${songs.length}');
       return Result.success(songs);
     } catch (e) {
+      print('Genel hata getNewsSongs: $e');
       return Result.failure('Bir hata oluştu: $e');
     }
   }
@@ -47,12 +67,28 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
           .select('*')
           .order('created_at', ascending: false);
 
-      final songs =
-          (response as List).map((json) {
+      final songFutures =
+          (response as List).map((json) async {
+            final String? relativePath = json['file_path'] as String?;
+            String? signedCoverUrl;
+
+            if (relativePath != null && relativePath.isNotEmpty) {
+              try {
+                signedCoverUrl = await supabase.storage
+                    .from('covers')
+                    .createSignedUrl(relativePath, 60 * 5);
+              } catch (e) {
+                print(
+                  'Error creating signed URL for $relativePath in bucket "covers" (playlist): $e',
+                );
+              }
+            }
             final model = SongModel.fromJson(json);
+            model.coverFileName = signedCoverUrl;
             return model.toEntity();
           }).toList();
 
+      final songs = await Future.wait(songFutures);
       return Result.success(songs);
     } catch (e) {
       return Result.failure('Bir hata oluştu: $e');
