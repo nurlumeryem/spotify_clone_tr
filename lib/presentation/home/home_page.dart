@@ -54,64 +54,61 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _homeTopCard() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Center(
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              width: 340,
-              height: 118,
-              decoration: BoxDecoration(
-                color: const Color(0xFF42C83C),
-                borderRadius: BorderRadius.circular(30),
-              ),
+    return Center(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: 340,
+            height: 118,
+            decoration: BoxDecoration(
+              color: const Color(0xFF42C83C),
+              borderRadius: BorderRadius.circular(30),
             ),
+          ),
 
-            // Yazılar (sol üstte)
-            const Positioned(
-              left: 24,
-              top: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Yeni Albüm',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+          // Yazılar (sol üstte)
+          const Positioned(
+            left: 24,
+            top: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Yeni Albüm',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Kuzu Kuzu',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Kuzu Kuzu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Tarkan',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Tarkan',
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              ],
             ),
-            Positioned(
-              top: -65,
-              right: -20,
-              child: Image.asset(
-                AppImages.homeArtist,
-                height: 183.61,
-                fit: BoxFit.contain,
-              ),
+          ),
+          Positioned(
+            top: -65,
+            right: -20,
+            child: Image.asset(
+              AppImages.homeArtist,
+              height: 183.61,
+              fit: BoxFit.contain,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

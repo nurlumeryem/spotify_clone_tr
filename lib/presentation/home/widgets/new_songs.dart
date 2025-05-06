@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
+import 'package:spotify_clone_tr/core/configs/theme/app_colors.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
 import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_bloc.dart';
@@ -53,37 +55,42 @@ class NewSongs extends StatelessWidget {
         return SizedBox(
           width: 160,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                    child: Image.network(
-                      Uri.encodeFull(
-                        song.coverFileName.isNotEmpty
-                            ? song.coverFileName
-                            : AppURLs.defaultImage,
-                      ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    image: DecorationImage(
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.network(
-                          AppURLs.defaultImage,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context2, error2, stackTrace2) {
-                            return const Icon(Icons.broken_image, size: 50);
-                          },
-                        );
-                      },
+                      image: NetworkImage(song.coverFileName),
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      transform: Matrix4.translationValues(10, 10, 0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            context.isDarkMode
+                                ? AppColors.darkGrey
+                                : const Color(0xffE6E6E6),
+                      ),
+                      child: Icon(
+                        Icons.play_arrow_rounded,
+                        color:
+                            context.isDarkMode
+                                ? const Color(0xff959595)
+                                : const Color(0xff555555),
+                      ),
                     ),
                   ),
                 ),
               ),
+
               const SizedBox(height: 10),
               Text(
                 songs[index].title,
