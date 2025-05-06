@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone_tr/domain/usecases/get_news_usecase.dart';
-import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_state.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/new_songs/news_songs_state.dart';
 import 'news_songs_event.dart';
 
 class NewsSongsBloc extends Bloc<NewsSongsEvent, NewsSongsState> {

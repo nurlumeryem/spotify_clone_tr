@@ -7,6 +7,7 @@ import 'package:spotify_clone_tr/core/configs/theme/app_colors.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_images.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_vectors.dart';
 import 'package:spotify_clone_tr/presentation/home/widgets/new_songs.dart';
+import 'package:spotify_clone_tr/presentation/home/widgets/play_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -47,6 +48,8 @@ class _HomePageState extends State<HomePage>
                 children: [NewSongs(), Container(), Container(), Container()],
               ),
             ),
+
+            PlayList(),
           ],
         ),
       ),
@@ -54,61 +57,62 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _homeTopCard() {
-    return Center(
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            width: 340,
-            height: 118,
-            decoration: BoxDecoration(
-              color: const Color(0xFF42C83C),
-              borderRadius: BorderRadius.circular(30),
+    return Padding(
+      padding: const EdgeInsets.only(top: 60),
+      child: Center(
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: 340,
+              height: 118,
+              decoration: BoxDecoration(
+                color: const Color(0xFF42C83C),
+                borderRadius: BorderRadius.circular(30),
+              ),
             ),
-          ),
-
-          // Yazılar (sol üstte)
-          const Positioned(
-            left: 24,
-            top: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Yeni Albüm',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+            const Positioned(
+              left: 24,
+              top: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Yeni Albüm',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Kuzu Kuzu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                  SizedBox(height: 4),
+                  Text(
+                    'Kuzu Kuzu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Tarkan',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                ),
-              ],
+                  SizedBox(height: 4),
+                  Text(
+                    'Tarkan',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: -65,
-            right: -20,
-            child: Image.asset(
-              AppImages.homeArtist,
-              height: 183.61,
-              fit: BoxFit.contain,
+            Positioned(
+              top: -75,
+              right: -20,
+              child: Image.asset(
+                AppImages.homeArtist,
+                height: 190,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
