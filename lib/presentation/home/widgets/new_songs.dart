@@ -4,9 +4,9 @@ import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_colors.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
 import 'package:spotify_clone_tr/domain/entities/song/song.dart';
-import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_bloc.dart';
-import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_event.dart';
-import 'package:spotify_clone_tr/presentation/home/bloc/news_songs_state.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/new_songs/news_songs_bloc.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/new_songs/news_songs_event.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/new_songs/news_songs_state.dart';
 import 'package:spotify_clone_tr/service_locator.dart';
 import 'package:spotify_clone_tr/domain/usecases/get_news_usecase.dart';
 
