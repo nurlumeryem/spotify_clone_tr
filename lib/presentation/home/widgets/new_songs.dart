@@ -55,29 +55,32 @@ class NewSongs extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: Container(
-                  width: 160,
-                  height: 160,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    Uri.encodeFull(
-                      song.coverFileName.isNotEmpty
-                          ? song.coverFileName
-                          : AppURLs.defaultImage,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 160,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.network(
-                        AppURLs.defaultImage,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context2, error2, stackTrace2) {
-                          return const Icon(Icons.broken_image, size: 50);
-                        },
-                      );
-                    },
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.network(
+                      Uri.encodeFull(
+                        song.coverFileName.isNotEmpty
+                            ? song.coverFileName
+                            : AppURLs.defaultImage,
+                      ),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.network(
+                          AppURLs.defaultImage,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context2, error2, stackTrace2) {
+                            return const Icon(Icons.broken_image, size: 50);
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
