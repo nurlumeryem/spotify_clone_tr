@@ -19,13 +19,16 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  @override
   void initState() {
     super.initState();
+    print('HomePage initState çağrıldı');
     _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
+    print('HomePage build metodu çağrıldı');
     return Scaffold(
       appBar: BasicAppbar(
         hideBack: true,

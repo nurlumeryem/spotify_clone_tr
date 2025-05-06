@@ -11,7 +11,7 @@ import 'package:spotify_clone_tr/domain/usecases/signin_usecase.dart';
 import 'package:spotify_clone_tr/domain/usecases/signup_usecase.dart';
 import 'package:spotify_clone_tr/service/music_service.dart';
 import 'package:supabase/supabase.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart'; // .env için gerekli
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final sl = GetIt.instance;
 

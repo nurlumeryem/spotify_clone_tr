@@ -10,7 +10,6 @@ class GetNewsSongsUseCase
     implements UseCase<Result<List<SongEntity>>, dynamic> {
   @override
   Future<Result<List<SongEntity>>> call({params}) async {
-    return await sl<SongRepository>().getNewsSongs()
-        as Result<List<SongEntity>>;
+    return await sl<SongRepository>().getNewsSongs();
   }
 }

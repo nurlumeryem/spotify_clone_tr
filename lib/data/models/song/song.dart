@@ -24,7 +24,21 @@ class SongModel {
     title = data['title'] as String?;
     artist = data['artist'] as String?;
     duration = data['duration'] as num?;
-    releaseDate = data['created_at'] as Timestamp?;
+
+    if (data['created_at'] != null && data['created_at'] is String) {
+      try {
+        releaseDate = Timestamp.fromDate(
+          DateTime.parse(data['created_at'] as String),
+        );
+      } catch (e) {
+        print(
+          'Error parsing created_at to Timestamp: $e. Value: ${data['created_at']}',
+        );
+        releaseDate = null;
+      }
+    } else {
+      releaseDate = null;
+    }
 
     coverFileName = data['file_path'] as String?;
     isFavorite = false;

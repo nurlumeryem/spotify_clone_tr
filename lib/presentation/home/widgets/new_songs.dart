@@ -13,6 +13,9 @@ class NewSongs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+      'NewSongs widget: BlocProvider create çağrıldı, NewsSongsBloc oluşturuluyor ve FetchNewsSongs event_i ekleniyor.',
+    );
     return BlocProvider(
       create:
           (_) =>
@@ -32,6 +35,11 @@ class NewSongs extends StatelessWidget {
               print('Gelen şarkı sayısı: ${state.songs.length}');
               return _songs(state.songs);
             }
+            if (state is NewsSongsLoadFailure) {
+              return Center(
+                child: Text('Şarkılar yüklenemedi: ${state.message}'),
+              );
+            }
 
             return Container();
           },
@@ -45,6 +53,8 @@ class NewSongs extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         final song = songs[index];
+
+        print('Cover URL: ${song.coverFileName}');
 
         return SizedBox(
           width: 160,
@@ -60,8 +70,7 @@ class NewSongs extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
 
                   child: Image.network(
-                    // artık prefix yok, direkt signed URL
-                    song.coverFileName ?? AppURLs.defaultImage,
+                    Uri.encodeFull(song.coverFileName ?? AppURLs.defaultImage),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Image.network(

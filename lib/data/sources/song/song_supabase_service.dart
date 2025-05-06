@@ -28,7 +28,6 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
           (response as List).map((json) {
             print('🔹 mapping json keys: ${json.keys.toList()}');
             final model = SongModel.fromJson(json);
-            model.songId = json['id'];
             return model.toEntity();
           }).toList();
 
@@ -51,7 +50,6 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
       final songs =
           (response as List).map((json) {
             final model = SongModel.fromJson(json);
-            model.songId = json['id'];
             return model.toEntity();
           }).toList();
 

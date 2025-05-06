@@ -9,14 +9,20 @@ class NewsSongsBloc extends Bloc<NewsSongsEvent, NewsSongsState> {
   NewsSongsBloc(this.getNewsSongsUseCase) : super(NewsSongsLoading()) {
     on<FetchNewsSongs>((event, emit) async {
       emit(NewsSongsLoading());
+      print('Fetching news songs...');
 
       final result = await getNewsSongsUseCase.call();
 
       if (result.isSuccess && result.data != null) {
         emit(NewsSongsLoaded(songs: result.data!));
+        print('News songs fetched successfully.');
       } else {
-        emit(NewsSongsLoadFailure());
-        emit(NewsSongsLoadFailure(message: result.error));
+        emit(
+          NewsSongsLoadFailure(
+            message: result.error ?? 'Bilinmeyen bir hata oluştu.',
+          ),
+        );
+        print('Failed to fetch news songs: ${result.error}');
       }
     });
   }

@@ -14,10 +14,15 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   await dotenv.load(fileName: ".env");
 
-  supabase = SupabaseClient(
-    dotenv.env['SUPABASE_URL']!,
-    dotenv.env['SUPABASE_ANON_KEY']!,
-  );
+  try {
+    supabase = SupabaseClient(
+      dotenv.env['SUPABASE_URL']!,
+      dotenv.env['SUPABASE_ANON_KEY']!,
+    );
+    print('SupabaseClient oluşturuldu.');
+  } catch (e) {
+    print('Supabase bağlantı hatası: $e');
+  }
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
