@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    print('HomePage initState çağrıldı');
+
     _tabController = TabController(length: 4, vsync: this);
   }
 
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage>
 
   Widget _homeTopCard() {
     return Padding(
-      padding: const EdgeInsets.only(top: 60),
+      padding: const EdgeInsets.only(top: 50),
       child: Center(
         child: Stack(
           clipBehavior: Clip.none,
@@ -71,9 +71,8 @@ class _HomePageState extends State<HomePage>
                 borderRadius: BorderRadius.circular(30),
               ),
             ),
-            const Positioned(
-              left: 24,
-              top: 20,
+            Padding(
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -103,8 +102,8 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             Positioned(
-              top: -75,
-              right: -20,
+              top: -70,
+              right: -30,
               child: Image.asset(
                 AppImages.homeArtist,
                 height: 190,
@@ -120,10 +119,11 @@ class _HomePageState extends State<HomePage>
   Widget _tabs() {
     return TabBar(
       controller: _tabController,
-      isScrollable: true,
+      isScrollable: false,
       labelColor: context.isDarkMode ? Colors.white : Colors.black,
       indicatorColor: AppColors.primary,
-      padding: const EdgeInsets.only(left: 24, top: 40, bottom: 40),
+      labelPadding: EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
       tabs: const [
         Text(
           'Yeniler',
@@ -135,10 +135,14 @@ class _HomePageState extends State<HomePage>
         ),
         Text(
           'Sanatçılar',
+          softWrap: false,
+          textAlign: TextAlign.center,
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
         ),
         Text(
           'Podcastler',
+          softWrap: false,
+          textAlign: TextAlign.center,
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
         ),
       ],
