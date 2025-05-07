@@ -13,12 +13,10 @@ class FavoriteButtonBloc
       var result = await sl<AddOrRemoveFavoriteSongUseCase>().call(
         params: event.songId,
       );
+
       if (result.isSuccess) {
-        // If the operation was successful, emit the updated state
         emit(FavoriteButtonUpdated(isFavorite: result.data!));
       } else {
-        // Handle the error case if needed
-        // You can log the error or emit an error state
         print('Error: ${result.error}');
       }
     });
