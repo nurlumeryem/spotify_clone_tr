@@ -14,4 +14,14 @@ class SongRepositoryImpl extends SongRepository {
   Future<Result<List<SongEntity>>> getPlayList() async {
     return await sl<SongSupabaseService>().getPlayList();
   }
+
+  @override
+  Future<Result<bool>> addOrRemoveFavoriteSongs(String songId) async {
+    return await sl<SongSupabaseService>().addOrRemoveFavoriteSong(songId);
+  }
+
+  @override
+  Future<Result<bool>> isFavoriteSong(String songId) async {
+    return await sl<SongSupabaseService>().isFavoriteSong(songId);
+  }
 }

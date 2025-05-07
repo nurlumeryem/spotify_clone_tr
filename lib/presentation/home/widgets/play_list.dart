@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_colors.dart';
 import 'package:spotify_clone_tr/domain/entities/song/song.dart';
-import 'package:spotify_clone_tr/domain/usecases/get_play_list.dart';
+import 'package:spotify_clone_tr/domain/usecases/get_play_list._usecase.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/play_list/bloc/play_list_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/play_list/bloc/play_list_state.dart';
 import 'package:spotify_clone_tr/service_locator.dart';

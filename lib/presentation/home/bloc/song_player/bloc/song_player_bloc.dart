@@ -90,6 +90,32 @@ class SongPlayerBloc extends Bloc<SongPlayerEvent, SongPlayerState> {
     await audioPlayer.seek(event.position);
   }
 
+  Future<void> loadSong(String url) async {
+    print(url);
+    try {
+      await audioPlayer.setUrl(url);
+      emit(
+        SongPlayerLoaded(
+          isPlaying: false,
+          position: Duration.zero,
+          duration: songDuration,
+          songUrl: url,
+        ),
+      );
+    } catch (e) {
+      emit(SongPlayerFailure('Şarkı yüklenemedi. URL: $url\nHata: $e'));
+    }
+  }
+
+  void playOrPauseSong() {
+    if (audioPlayer.playing) {
+      audioPlayer.pause();
+    } else {
+      audioPlayer.play();
+    }
+    emit((state as SongPlayerLoaded).copyWith(isPlaying: !audioPlayer.playing));
+  }
+
   @override
   Future<void> close() {
     audioPlayer.dispose();

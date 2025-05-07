@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spotify_clone_tr/data/models/song/song.dart';
 import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 import 'package:supabase/supabase.dart';
@@ -6,6 +8,8 @@ import 'package:spotify_clone_tr/core/utils/result.dart';
 abstract class SongSupabaseService {
   Future<Result<List<SongEntity>>> getNewsSongs();
   Future<Result<List<SongEntity>>> getPlayList();
+  Future<Result<bool>> addOrRemoveFavoriteSong(String songId);
+  Future<Result<bool>> isFavoriteSong(String songId);
 }
 
 class SongSupabaseServiceImpl extends SongSupabaseService {
@@ -93,5 +97,46 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
     } catch (e) {
       return Result.failure('Bir hata oluştu: $e');
     }
+  }
+
+  @override
+  Future<Result<bool>> addOrRemoveFavoriteSong(String songId) async {
+    try {
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+      var user = firebaseAuth.currentUser;
+      String uId = user!.uid;
+
+      QuerySnapshot favoriteSongs =
+          await firebaseFirestore
+              .collection('Users')
+              .doc(uId)
+              .collection('Favorites')
+              .where('songId', isEqualTo: songId)
+              .get();
+
+      if (favoriteSongs.docs.isNotEmpty) {
+        // Şarkı zaten favorilerde, kaldır
+        await favoriteSongs.docs.first.reference.delete();
+        return Result.success(false); // Favorilerden kaldırıldı
+      } else {
+        // Şarkı favorilerde değil, ekle
+        await firebaseFirestore
+            .collection('Users')
+            .doc(uId)
+            .collection('Favorites')
+            .add({'songId': songId, 'addedDate': Timestamp.now()});
+        return Result.success(true); // Favorilere eklendi
+      }
+    } catch (e) {
+      return Result.failure('Bir hata oluştu: $e');
+    }
+  }
+
+  @override
+  Future<Result<bool>> isFavoriteSong(String songId) {
+    // TODO: implement isFavoriteSong
+    throw UnimplementedError();
   }
 }

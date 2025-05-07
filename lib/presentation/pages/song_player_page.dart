@@ -23,12 +23,7 @@ class SongPlayerPage extends StatelessWidget {
       ),
       body: BlocProvider(
         create:
-            (context) =>
-                SongPlayerBloc()..add(
-                  LoadSongEvent(
-                    songEntity.url,
-                  ), // Dikkat: coverFileName yerine url kullanılıyor
-                ),
+            (context) => SongPlayerBloc()..add(LoadSongEvent(songEntity.url)),
 
         child: SingleChildScrollView(
           child: Padding(

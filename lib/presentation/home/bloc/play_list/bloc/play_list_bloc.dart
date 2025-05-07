@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spotify_clone_tr/domain/usecases/get_play_list.dart';
+import 'package:spotify_clone_tr/domain/usecases/get_play_list._usecase.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/play_list/bloc/play_list_event.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/play_list/bloc/play_list_state.dart';
 
