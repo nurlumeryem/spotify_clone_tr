@@ -4,8 +4,10 @@ import 'package:spotify_clone_tr/presentation/auth/pages/signup.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signup_or_signin.dart';
 import 'package:spotify_clone_tr/presentation/home/home_page.dart';
 import 'package:spotify_clone_tr/presentation/pages/onboarding_pages.dart';
+import 'package:spotify_clone_tr/presentation/pages/song_player_page.dart';
 import 'package:spotify_clone_tr/presentation/pages/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -102,6 +104,12 @@ class AppRouter {
                 ),
           ),
           GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+          GoRoute(
+            path: '/songPlayerPage',
+            builder:
+                (context, state) =>
+                    SongPlayerPage(songEntity: state.extra as SongEntity),
+          ),
         ],
         errorBuilder:
             (context, state) => Scaffold(

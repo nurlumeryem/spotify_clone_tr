@@ -131,7 +131,8 @@ class PlayList extends StatelessWidget {
                   IconButton(
                     onPressed: () {},
                     icon: Icon(
-                      Icons.favorite_rounded,
+                      Icons.favorite_outline_outlined,
+                      size: 25,
                       color: AppColors.darkGrey,
                     ),
                   ),
