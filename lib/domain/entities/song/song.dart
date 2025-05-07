@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class SongEntity {
   final String title;
   final String artist;
+  final String url;
   final num duration;
   final Timestamp releaseDate;
   final bool isFavorite;
@@ -12,6 +13,7 @@ class SongEntity {
   SongEntity({
     required this.title,
     required this.artist,
+    required this.url,
     required this.duration,
     required this.releaseDate,
     required this.isFavorite,

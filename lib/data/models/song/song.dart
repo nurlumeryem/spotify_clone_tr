@@ -9,6 +9,7 @@ class SongModel {
   String? coverFileName;
   bool? isFavorite;
   String? songId;
+  String? url;
 
   SongModel({
     required this.title,
@@ -18,6 +19,7 @@ class SongModel {
     required this.isFavorite,
     required this.songId,
     required this.coverFileName,
+    required this.url,
   });
 
   SongModel.fromJson(Map<String, dynamic> data) {
@@ -43,6 +45,7 @@ class SongModel {
     coverFileName = data['file_path'] as String?;
     isFavorite = false;
     songId = data['id']?.toString();
+    url = data['url'] as String?;
   }
 }
 
@@ -51,6 +54,7 @@ extension SongModelX on SongModel {
     return SongEntity(
       title: title ?? 'Unknown Title',
       artist: artist ?? 'Unknown Artist',
+      url: url ?? '',
       duration: duration ?? 0,
       releaseDate: releaseDate ?? Timestamp.now(),
       isFavorite: isFavorite ?? false,
