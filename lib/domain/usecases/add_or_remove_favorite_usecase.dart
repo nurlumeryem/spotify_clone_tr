@@ -4,9 +4,9 @@ import 'package:spotify_clone_tr/domain/repositories/song_repository.dart';
 
 import 'package:spotify_clone_tr/service_locator.dart';
 
-class AddOrRemoveFavoriteUsecase implements UseCase<Result<String>, String?> {
+class AddOrRemoveFavoriteSongUseCase implements UseCase<Result<bool>, String?> {
   @override
-  Future<Result<String>> call({String? params}) async {
+  Future<Result<bool>> call({String? params}) async {
     return await sl<SongRepository>().addOrRemoveFavoriteSongs(params!);
   }
 }

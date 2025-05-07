@@ -8,7 +8,7 @@ import 'package:spotify_clone_tr/core/utils/result.dart';
 abstract class SongSupabaseService {
   Future<Result<List<SongEntity>>> getNewsSongs();
   Future<Result<List<SongEntity>>> getPlayList();
-  Future<Result<String>> addOrRemoveFavoriteSong(String songId);
+  Future<Result<bool>> addOrRemoveFavoriteSong(String songId);
   Future<Result<bool>> isFavoriteSong(String songId);
 }
 
@@ -100,7 +100,7 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
   }
 
   @override
-  Future<Result<String>> addOrRemoveFavoriteSong(String songId) async {
+  Future<Result<bool>> addOrRemoveFavoriteSong(String songId) async {
     try {
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -119,7 +119,7 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
       if (favoriteSongs.docs.isNotEmpty) {
         // Şarkı zaten favorilerde, kaldır
         await favoriteSongs.docs.first.reference.delete();
-        return Result.success('Favorilerden kaldırıldı');
+        return Result.success(false);
       } else {
         // Şarkı favorilerde değil, ekle
         await firebaseFirestore
@@ -127,7 +127,7 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
             .doc(uId)
             .collection('Favorites')
             .add({'songId': songId, 'addedDate': Timestamp.now()});
-        return Result.success('Favorilere eklendi');
+        return Result.success(true);
       }
     } catch (e) {
       return Result.failure('Bir hata oluştu: $e');

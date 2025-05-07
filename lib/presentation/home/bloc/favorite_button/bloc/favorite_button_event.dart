@@ -1,8 +1,15 @@
 part of 'favorite_button_bloc.dart';
 
-sealed class FavoriteButtonEvent extends Equatable {
-  const FavoriteButtonEvent();
-
+abstract class FavoriteButtonEvent extends Equatable {
   @override
   List<Object> get props => [];
+}
+
+class UpdateFavoriteButton extends FavoriteButtonEvent {
+  final String songId;
+
+  UpdateFavoriteButton(this.songId);
+
+  @override
+  List<Object> get props => [songId];
 }
