@@ -127,8 +127,14 @@ class PlayList extends StatelessWidget {
               Row(
                 children: [
                   Text(formatDuration(songs[index].duration)),
-
                   const SizedBox(width: 20),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite_rounded,
+                      color: AppColors.darkGrey,
+                    ),
+                  ),
                 ],
               ),
             ],
