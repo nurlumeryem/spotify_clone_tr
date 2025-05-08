@@ -4,6 +4,7 @@ import 'package:spotify_clone_tr/presentation/auth/pages/signup.dart';
 import 'package:spotify_clone_tr/presentation/auth/pages/signup_or_signin.dart';
 import 'package:spotify_clone_tr/presentation/home/home_page.dart';
 import 'package:spotify_clone_tr/presentation/pages/onboarding_pages.dart';
+import 'package:spotify_clone_tr/presentation/pages/profile_page.dart';
 import 'package:spotify_clone_tr/presentation/pages/song_player_page.dart';
 import 'package:spotify_clone_tr/presentation/pages/splash.dart';
 import 'package:flutter/material.dart';
@@ -110,6 +111,7 @@ class AppRouter {
                 (context, state) =>
                     SongPlayerPage(songEntity: state.extra as SongEntity),
           ),
+          GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
         ],
         errorBuilder:
             (context, state) => Scaffold(

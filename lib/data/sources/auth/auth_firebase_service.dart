@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spotify_clone_tr/core/configs/theme/app_images.dart';
+import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
+import 'package:spotify_clone_tr/core/utils/firebase_error_helper.dart';
 import 'package:spotify_clone_tr/core/utils/result.dart';
 import 'package:spotify_clone_tr/data/models/auth/create_user_req.dart';
+import 'package:spotify_clone_tr/data/models/auth/user_model.dart';
 import 'package:spotify_clone_tr/data/models/signin_user_req.dart';
+import 'package:spotify_clone_tr/domain/entities/auth/user.dart';
 
 abstract class AuthFirebaseService {
   Future<Result<String>> signin(
     SigninUserReq signinUserReq,
   ); // Result kullanıyoruz
-  Future<Result<String>> signup(
-    CreateUserReq createUserReq,
-  ); // Result kullanıyoruz
+  Future<Result<String>> signup(CreateUserReq createUserReq);
+  Future<Result<UserEntity>> getUser(); // Result kullanıyoruz
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -21,22 +25,9 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
         email: signinUserReq.email,
         password: signinUserReq.password,
       );
-
-      return Result.success(
-        'Signin was Successful',
-      ); // Başarı durumunda Result.success döndürülür
+      return Result.success('Giriş başarılı!');
     } on FirebaseAuthException catch (e) {
-      String message = '';
-
-      if (e.code == 'invalid-email') {
-        message = 'No user found for that email';
-      } else if (e.code == 'invalid-credential') {
-        message = 'Wrong password provided for that user';
-      }
-
-      return Result.failure(
-        message,
-      ); // Hata durumunda Result.failure döndürülür
+      return Result.failure(FirebaseErrorHelper.getMessage(e.code));
     }
   }
 
@@ -48,27 +39,44 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
         password: createUserReq.password,
       );
 
-      // Firestore'a kullanıcıyı kaydetme
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(data.user?.uid)
           .set({'name': createUserReq.fullName, 'email': data.user?.email});
 
-      return Result.success(
-        'Signup was Successful',
-      ); // Başarı durumunda Result.success döndürülür
+      return Result.success('Kayıt başarılı! Hoş geldiniz.');
     } on FirebaseAuthException catch (e) {
-      String message = '';
+      return Result.failure(FirebaseErrorHelper.getMessage(e.code));
+    }
+  }
 
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'An account already exists with that email.';
-      }
+  @override
+  Future<Result<UserEntity>> getUser() async {
+    try {
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
+      var user =
+          await firebaseFirestore
+              .collection('Users')
+              .doc(firebaseAuth.currentUser?.uid)
+              .get();
+
+      UserModel userModel = UserModel.fromJson(user.data()!);
+      userModel.imageURL =
+          firebaseAuth.currentUser?.photoURL ?? AppImages.defaultImage;
+
+      UserEntity userEntity = userModel.toEntity();
+      return Result.success(userEntity);
+    } on FirebaseException catch (e) {
+      // Firebase kaynaklı özel hata varsa
+      final message = FirebaseErrorHelper.getMessage(e.code);
+      return Result.failure(message);
+    } catch (e) {
+      // Diğer hatalar
       return Result.failure(
-        message,
-      ); // Hata durumunda Result.failure döndürülür
+        'Kullanıcı bilgileri alınırken bir hata oluştu: ${e.toString()}',
+      );
     }
   }
 }
