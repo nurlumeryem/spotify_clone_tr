@@ -7,57 +7,55 @@ import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/fav
 class FavoriteButton extends StatelessWidget {
   final SongEntity songEntity;
   final Function? function;
+
   const FavoriteButton({required this.songEntity, this.function, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FavoriteButtonBloc(),
-      child: BlocBuilder<FavoriteButtonBloc, FavoriteButtonState>(
-        builder: (context, state) {
-          if (state is FavoriteButtonInitial) {
-            return IconButton(
-              onPressed: () async {
-                context.read<FavoriteButtonBloc>().add(
-                  UpdateFavoriteButton(songEntity.songId),
-                );
-                if (function != null) {
-                  function!();
-                }
-              },
-              icon: Icon(
-                songEntity.isFavorite
-                    ? Icons.favorite
-                    : Icons.favorite_outline_outlined,
-                size: 25,
-                color: AppColors.darkGrey,
-              ),
-            );
-          }
+    return BlocBuilder<FavoriteButtonBloc, FavoriteButtonState>(
+      builder: (context, state) {
+        if (state is FavoriteButtonInitial) {
+          return IconButton(
+            onPressed: () async {
+              context.read<FavoriteButtonBloc>().add(
+                UpdateFavoriteButton(songEntity.songId),
+              );
+              if (function != null) {
+                function!();
+              }
+            },
+            icon: Icon(
+              songEntity.isFavorite
+                  ? Icons.favorite
+                  : Icons.favorite_outline_outlined,
+              size: 25,
+              color: AppColors.darkGrey,
+            ),
+          );
+        }
 
-          if (state is FavoriteButtonUpdated) {
-            return IconButton(
-              onPressed: () {
-                context.read<FavoriteButtonBloc>().add(
-                  UpdateFavoriteButton(songEntity.songId),
-                );
-                if (function != null) {
-                  function!();
-                }
-              },
-              icon: Icon(
-                state.isFavorite
-                    ? Icons.favorite
-                    : Icons.favorite_outline_outlined,
-                size: 25,
-                color: AppColors.darkGrey,
-              ),
-            );
-          }
+        if (state is FavoriteButtonUpdated) {
+          return IconButton(
+            onPressed: () {
+              context.read<FavoriteButtonBloc>().add(
+                UpdateFavoriteButton(songEntity.songId),
+              );
+              if (function != null) {
+                function!();
+              }
+            },
+            icon: Icon(
+              state.isFavorite
+                  ? Icons.favorite
+                  : Icons.favorite_outline_outlined,
+              size: 25,
+              color: AppColors.darkGrey,
+            ),
+          );
+        }
 
-          return Container();
-        },
-      ),
+        return Container();
+      },
     );
   }
 }
