@@ -52,5 +52,5 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<AddOrRemoveFavoriteSongUseCase>(
     AddOrRemoveFavoriteSongUseCase(),
   );
-  sl.registerSingleton<GetUserUsacase>(GetUserUsacase());
+  sl.registerSingleton<GetUserUseCase>(GetUserUseCase());
 }
