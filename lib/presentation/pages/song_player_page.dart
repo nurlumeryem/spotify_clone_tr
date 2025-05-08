@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone_tr/common/widgets/app_bar.dart';
+import 'package:spotify_clone_tr/common/widgets/favorite_button.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_colors.dart';
-import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
 import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/song_player/bloc/song_player_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/song_player/bloc/song_player_state.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/favorite_button_bloc.dart';
 
 class SongPlayerPage extends StatelessWidget {
   final SongEntity songEntity;
@@ -32,7 +33,7 @@ class SongPlayerPage extends StatelessWidget {
               children: [
                 _songCover(context),
                 SizedBox(height: 20),
-                _songDetail(),
+                _songDetail(context),
                 SizedBox(height: 20),
                 _songPlayer(context),
               ],
@@ -56,7 +57,7 @@ class SongPlayerPage extends StatelessWidget {
     );
   }
 
-  Widget _songDetail() {
+  Widget _songDetail(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -74,13 +75,9 @@ class SongPlayerPage extends StatelessWidget {
             ),
           ],
         ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.favorite_outline_outlined,
-            size: 25,
-            color: AppColors.darkGrey,
-          ),
+        BlocProvider(
+          create: (context) => FavoriteButtonBloc(context),
+          child: FavoriteButton(songEntity: songEntity),
         ),
       ],
     );
