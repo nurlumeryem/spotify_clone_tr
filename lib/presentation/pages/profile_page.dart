@@ -53,8 +53,7 @@ class ProfilePage extends StatelessWidget {
                           state.userEntity.imageURL != null &&
                                   state.userEntity.imageURL!.isNotEmpty
                               ? NetworkImage(state.userEntity.imageURL!)
-                              : AssetImage(AppImages.defaultImage)
-                                  as ImageProvider,
+                              : AssetImage(AppImages.defaultImage),
                       fit: BoxFit.cover,
                     ),
                   ),
