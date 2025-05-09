@@ -1,14 +1,9 @@
-part of 'favorite_button_bloc.dart';
-
-abstract class FavoriteButtonState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+abstract class FavoriteButtonState {}
 
 class FavoriteButtonInitial extends FavoriteButtonState {}
 
 class FavoriteButtonUpdated extends FavoriteButtonState {
-  final String songId;
+  final bool isFavorite;
 
-  FavoriteButtonUpdated(this.songId);
+  FavoriteButtonUpdated({required this.isFavorite});
 }

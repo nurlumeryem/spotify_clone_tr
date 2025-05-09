@@ -22,4 +22,30 @@ class SongEntity {
     required this.coverFileName,
     required this.id,
   });
+
+  // Convert a SongEntity to a Map
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'artist': artist,
+      'coverFileName': coverFileName,
+      'url': url,
+    };
+  }
+
+  // Create a SongEntity from a Map
+  factory SongEntity.fromMap(Map<String, dynamic> map) {
+    return SongEntity(
+      id: map['id'],
+      title: map['title'],
+      artist: map['artist'],
+      coverFileName: map['coverFileName'],
+      url: map['url'],
+      duration: map['duration'],
+      releaseDate: map['releaseDate'],
+      isFavorite: map['isFavorite'],
+      songId: map['songId'],
+    );
+  }
 }

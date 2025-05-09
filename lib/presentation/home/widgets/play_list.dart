@@ -9,7 +9,6 @@ import 'package:spotify_clone_tr/presentation/home/bloc/play_list/bloc/play_list
 import 'package:spotify_clone_tr/presentation/home/bloc/play_list/bloc/play_list_state.dart';
 import 'package:spotify_clone_tr/service_locator.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/play_list/bloc/play_list_event.dart';
-import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/favorite_button_bloc.dart';
 
 class PlayList extends StatelessWidget {
   const PlayList({super.key});
@@ -37,11 +36,6 @@ class PlayList extends StatelessWidget {
             print(
               'Songs with durations: ${state.songs.map((s) => "${s.title}: ${s.duration}").join(', ')}',
             );
-
-            // Assuming you have a way to get favorite songs
-            List<SongEntity> favoriteSongs =
-                []; // Replace with actual favorite songs retrieval
-
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
               child: Column(
@@ -66,8 +60,8 @@ class PlayList extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 5),
-                  _songs(state.songs, favoriteSongs),
+                  const SizedBox(height: 20),
+                  _songs(state.songs),
                 ],
               ),
             );
@@ -79,92 +73,66 @@ class PlayList extends StatelessWidget {
     );
   }
 
-  Widget _songs(List<SongEntity> songs, List<SongEntity> favoriteSongs) {
+  Widget _songs(List<SongEntity> songs) {
     return ListView.separated(
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return BlocProvider(
-          create: (context) => FavoriteButtonBloc(),
-          child: Builder(
-            builder: (context) {
-              bool isFavorite = favoriteSongs.contains(songs[index]);
-
-              return GestureDetector(
-                onTap: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 45,
-                          width: 45,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:
-                                context.isDarkMode
-                                    ? AppColors.darkGrey
-                                    : const Color(0xffE6E6E6),
-                          ),
-                          child: Icon(
-                            Icons.play_arrow_rounded,
-                            color:
-                                context.isDarkMode
-                                    ? const Color(0xff959595)
-                                    : const Color(0xff555555),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              songs[index].title,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              songs[index].artist,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+        return GestureDetector(
+          onTap: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 45,
+                    width: 45,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color:
+                          context.isDarkMode
+                              ? AppColors.darkGrey
+                              : const Color(0xffE6E6E6),
                     ),
-                    BlocBuilder<FavoriteButtonBloc, FavoriteButtonState>(
-                      builder: (context, state) {
-                        bool isFavorite =
-                            state is FavoriteButtonUpdated &&
-                            state.songId == songs[index].id;
-
-                        return Row(
-                          children: [
-                            Text(formatDuration(songs[index].duration)),
-                            const SizedBox(height: 5),
-                            FavoriteButton(
-                              songEntity: songs[index],
-                              isFavorite: isFavorite,
-                              onPressed: () {
-                                // Add your logic to handle the favorite button press
-                                context.read<FavoriteButtonBloc>().add(
-                                  UpdateFavoriteButton(songId: songs[index].id),
-                                );
-                              },
-                            ),
-                          ],
-                        );
-                      },
+                    child: Icon(
+                      Icons.play_arrow_rounded,
+                      color:
+                          context.isDarkMode
+                              ? const Color(0xff959595)
+                              : const Color(0xff555555),
                     ),
-                  ],
-                ),
-              );
-            },
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        songs[index].title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        songs[index].artist,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(formatDuration(songs[index].duration)),
+                  const SizedBox(width: 20),
+                  FavoriteButton(songEntity: songs[index]),
+                ],
+              ),
+            ],
           ),
         );
       },

@@ -6,7 +6,7 @@ import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_images.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
 import 'package:spotify_clone_tr/domain/entities/song/song.dart';
-import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/favorite_button_bloc.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/favorite_button_cubit.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/favorite_songs/bloc/favorite_songs_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_event.dart';
@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
         BlocProvider(
           create: (_) => FavoriteSongsBloc()..add(LoadFavoriteSongsEvent()),
         ),
-        BlocProvider(create: (context) => FavoriteButtonBloc()),
+        BlocProvider(create: (context) => FavoriteButtonCubit()),
       ],
       child: Scaffold(
         appBar: BasicAppbar(
@@ -132,10 +132,7 @@ class ProfilePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder:
-                                  (context) => SongPlayerPage(
-                                    songEntity: song,
-                                    favoriteSongs: favoriteSongs,
-                                  ),
+                                  (context) => SongPlayerPage(songEntity: song),
                             ),
                           );
                         },
@@ -190,11 +187,8 @@ class ProfilePage extends StatelessWidget {
                                 const SizedBox(width: 20),
                                 FavoriteButton(
                                   songEntity: state.favoriteSongs[index],
-                                  isFavorite: favoriteSongs.contains(
-                                    state.favoriteSongs[index],
-                                  ),
                                   key: UniqueKey(),
-                                  onPressed: () {
+                                  function: () {
                                     context
                                         .read<FavoriteSongsBloc>()
                                         .removeSong(index);

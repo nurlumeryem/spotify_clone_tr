@@ -8,6 +8,7 @@ import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/new_songs/news_songs_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/new_songs/news_songs_event.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/new_songs/news_songs_state.dart';
+import 'package:spotify_clone_tr/presentation/pages/song_player_page.dart';
 import 'package:spotify_clone_tr/service_locator.dart';
 import 'package:spotify_clone_tr/domain/usecases/get_news_usecase.dart';
 
@@ -54,7 +55,11 @@ class NewSongs extends StatelessWidget {
         final song = songs[index];
         return GestureDetector(
           onTap: () {
-            context.push('/songPlayerPage', extra: songs[index]);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => SongPlayerPage(songEntity: songs[index]),
+              ),
+            );
           },
           child: SizedBox(
             width: 160,
