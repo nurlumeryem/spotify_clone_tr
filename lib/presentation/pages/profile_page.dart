@@ -172,17 +172,26 @@ class ProfilePage extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  song.duration.toString().replaceAll('.', ':'),
+                                  '${(song.duration ~/ 60).toString().padLeft(2, '0')}:${(song.duration % 60).toString().padLeft(2, '0')}',
                                 ),
                                 const SizedBox(width: 20),
-                                FavoriteButton(
-                                  songEntity: song,
-                                  key: UniqueKey(),
-                                  function: () {
-                                    context.read<FavoriteSongsBloc>().add(
-                                      RemoveFavoriteSongEvent(song: song),
-                                    );
-                                  },
+                                BlocProvider(
+                                  create:
+                                      (context) =>
+                                          FavoriteButtonBloc()..add(
+                                            UpdateFavoriteButton(
+                                              songId: song.id,
+                                            ),
+                                          ),
+                                  child: FavoriteButton(
+                                    songEntity: song,
+                                    key: UniqueKey(),
+                                    function: () {
+                                      context.read<FavoriteButtonBloc>().add(
+                                        UpdateFavoriteButton(songId: song.id),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ],
                             ),

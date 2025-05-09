@@ -8,7 +8,7 @@ abstract class FavoriteButtonEvent extends Equatable {
 class UpdateFavoriteButton extends FavoriteButtonEvent {
   final String songId;
 
-  UpdateFavoriteButton(this.songId);
+  UpdateFavoriteButton({required this.songId});
 
   @override
   List<Object> get props => [songId];

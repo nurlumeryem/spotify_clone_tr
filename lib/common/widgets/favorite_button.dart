@@ -18,7 +18,7 @@ class FavoriteButton extends StatelessWidget {
           return IconButton(
             onPressed: () async {
               context.read<FavoriteButtonBloc>().add(
-                UpdateFavoriteButton(songEntity.songId),
+                UpdateFavoriteButton(songId: songEntity.songId),
               );
               if (function != null) {
                 function!();
@@ -38,7 +38,7 @@ class FavoriteButton extends StatelessWidget {
           return IconButton(
             onPressed: () {
               context.read<FavoriteButtonBloc>().add(
-                UpdateFavoriteButton(songEntity.songId),
+                UpdateFavoriteButton(songId: songEntity.songId),
               );
               if (function != null) {
                 function!();

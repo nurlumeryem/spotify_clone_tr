@@ -9,6 +9,7 @@ class SongEntity {
   final bool isFavorite;
   final String songId;
   final String coverFileName;
+  final String id;
 
   SongEntity({
     required this.title,
@@ -19,5 +20,6 @@ class SongEntity {
     required this.isFavorite,
     required this.songId,
     required this.coverFileName,
+    required this.id,
   });
 }

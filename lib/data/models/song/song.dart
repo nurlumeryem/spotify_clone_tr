@@ -52,6 +52,7 @@ class SongModel {
 extension SongModelX on SongModel {
   SongEntity toEntity() {
     return SongEntity(
+      id: songId ?? '',
       title: title ?? 'Unknown Title',
       artist: artist ?? 'Unknown Artist',
       url: url ?? '',
