@@ -28,7 +28,8 @@ class ProfilePage extends StatelessWidget {
       ],
       child: Scaffold(
         appBar: BasicAppbar(
-          backgroundColor: const Color(0xff2C2B2B),
+          backgroundColor:
+              context.isDarkMode ? const Color(0xff2C2B2B) : Colors.white,
           title: const Text('Profile'),
         ),
         body: Column(
