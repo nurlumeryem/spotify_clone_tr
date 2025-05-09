@@ -100,6 +100,6 @@ Proje **Clean Architecture** prensiplerine göre yapılandırılmıştır:
 
 ## 🧑‍💻 Geliştirici
 
-- **[Adınız Soyadınız]**
+- **Meryem NURLU**
 - LinkedIn: <https://www.linkedin.com/in/meryemnurlu/>
 - GitHub: <https://github.com/nurlumeryem>
