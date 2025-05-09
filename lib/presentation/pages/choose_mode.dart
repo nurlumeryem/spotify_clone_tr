@@ -21,7 +21,7 @@ class ChooseModeContent extends StatelessWidget {
         ),
 
         const Text(
-          'Choose Mode',
+          'Mod Seçin',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class ChooseModeContent extends StatelessWidget {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Text(
-                  'Dark Mode',
+                  'Karanlık Mod',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: MediaQuery.of(context).size.width * 0.042,
@@ -111,7 +111,7 @@ class ChooseModeContent extends StatelessWidget {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Text(
-                  'Light Mode',
+                  'Aydınlık Mod',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: MediaQuery.of(context).size.width * 0.042,

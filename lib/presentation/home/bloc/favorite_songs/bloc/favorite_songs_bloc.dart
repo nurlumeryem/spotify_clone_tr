@@ -63,4 +63,13 @@ class FavoriteSongsBloc extends Bloc<FavoriteSongsEvent, FavoriteSongsState> {
     }
     emit(FavoriteSongsLoaded(favoriteSongs: favoriteSongs));
   }
+
+  void removeSong(int index) {
+    if (index >= 0 && index < favoriteSongs.length) {
+      favoriteSongs.removeAt(index);
+      emit(FavoriteSongsLoaded(favoriteSongs: favoriteSongs));
+    } else {
+      print('Invalid index: $index. Cannot remove song.');
+    }
+  }
 }

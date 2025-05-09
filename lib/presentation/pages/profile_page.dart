@@ -112,6 +112,12 @@ class ProfilePage extends StatelessWidget {
                 if (state is FavoriteSongsLoaded) {
                   List<SongEntity> favoriteSongs = state.favoriteSongs;
 
+                  if (favoriteSongs.isEmpty) {
+                    return const Center(
+                      child: Text('No favorite songs available.'),
+                    );
+                  }
+
                   return ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -120,6 +126,8 @@ class ProfilePage extends StatelessWidget {
 
                       return GestureDetector(
                         onTap: () {
+                          String encodedUrl = Uri.encodeFull(song.url);
+                          print('Playing song from URL: $encodedUrl');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -181,14 +189,15 @@ class ProfilePage extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 20),
                                 FavoriteButton(
-                                  songEntity: song,
-                                  isFavorite: favoriteSongs.contains(song),
+                                  songEntity: state.favoriteSongs[index],
+                                  isFavorite: favoriteSongs.contains(
+                                    state.favoriteSongs[index],
+                                  ),
+                                  key: UniqueKey(),
                                   onPressed: () {
-                                    context.read<FavoriteSongsBloc>().add(
-                                      favoriteSongs.contains(song)
-                                          ? RemoveFavoriteSongEvent(song: song)
-                                          : ToggleFavoriteSongEvent(song),
-                                    );
+                                    context
+                                        .read<FavoriteSongsBloc>()
+                                        .removeSong(index);
                                   },
                                 ),
                               ],
