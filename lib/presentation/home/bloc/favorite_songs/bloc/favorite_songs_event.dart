@@ -10,3 +10,12 @@ sealed class FavoriteSongsEvent extends Equatable {
 final class LoadFavoriteSongsEvent extends FavoriteSongsEvent {
   const LoadFavoriteSongsEvent();
 }
+
+final class RemoveFavoriteSongEvent extends FavoriteSongsEvent {
+  final SongEntity song;
+
+  const RemoveFavoriteSongEvent({required this.song});
+
+  @override
+  List<Object> get props => [song];
+}

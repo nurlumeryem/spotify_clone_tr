@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone_tr/common/widgets/app_bar.dart';
+import 'package:spotify_clone_tr/common/widgets/favorite_button.dart';
 import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_images.dart';
+import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/favorite_songs/bloc/favorite_songs_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_event.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_state.dart';
+import 'package:spotify_clone_tr/presentation/pages/song_player_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -76,6 +80,121 @@ class ProfilePage extends StatelessWidget {
             return const SizedBox.shrink();
           }
         },
+      ),
+    );
+  }
+
+  Widget _favoriteSongs() {
+    return BlocProvider(
+      create: (context) => FavoriteSongsBloc()..add(LoadFavoriteSongsEvent()),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('FAVORITE SONGS'),
+            const SizedBox(height: 20),
+            BlocBuilder<FavoriteSongsBloc, FavoriteSongsState>(
+              builder: (context, state) {
+                if (state is FavoriteSongsLoading) {
+                  return const CircularProgressIndicator();
+                }
+
+                if (state is FavoriteSongsLoaded) {
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final song = state.favoriteSongs[index];
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => SongPlayerPage(songEntity: song),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: 70,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        '${AppURLs.coverStorage}${song.artist} - ${song.title}.jpg?${AppURLs.defaultImage}',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      song.title,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      song.artist,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  song.duration.toString().replaceAll('.', ':'),
+                                ),
+                                const SizedBox(width: 20),
+                                // _favoriteSongs() methodu içinde
+                                FavoriteButton(
+                                  songEntity: song,
+                                  key: UniqueKey(),
+                                  function: () {
+                                    context.read<FavoriteSongsBloc>().add(
+                                      RemoveFavoriteSongEvent(song: song),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder:
+                        (context, index) => const SizedBox(height: 20),
+                    itemCount: state.favoriteSongs.length,
+                  );
+                }
+
+                if (state is FavoriteSongsFailure) {
+                  return const Text('Please try again.');
+                }
+
+                return Container();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -12,6 +12,7 @@ class FavoriteSongsBloc extends Bloc<FavoriteSongsEvent, FavoriteSongsState> {
 
   FavoriteSongsBloc() : super(FavoriteSongsLoading()) {
     on<LoadFavoriteSongsEvent>(_onLoadFavoriteSongs);
+    on<RemoveFavoriteSongEvent>(_onRemoveFavoriteSong);
   }
 
   Future<void> _onLoadFavoriteSongs(
@@ -34,8 +35,11 @@ class FavoriteSongsBloc extends Bloc<FavoriteSongsEvent, FavoriteSongsState> {
     }
   }
 
-  void removeSong(int index) {
-    favoriteSongs.removeAt(index);
+  void _onRemoveFavoriteSong(
+    RemoveFavoriteSongEvent event,
+    Emitter<FavoriteSongsState> emit,
+  ) {
+    favoriteSongs.remove(event.song);
     emit(FavoriteSongsLoaded(favoriteSongs: favoriteSongs));
   }
 }
