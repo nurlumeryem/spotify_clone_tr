@@ -16,7 +16,7 @@ class FavoriteButtonBloc
       );
 
       if (result.isSuccess) {
-        emit(FavoriteButtonUpdated(isFavorite: result.data!));
+        emit(FavoriteButtonUpdated(event.songId));
       } else {
         print('Error: ${result.error}');
         emit(FavoriteButtonInitial());

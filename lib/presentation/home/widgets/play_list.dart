@@ -37,6 +37,11 @@ class PlayList extends StatelessWidget {
             print(
               'Songs with durations: ${state.songs.map((s) => "${s.title}: ${s.duration}").join(', ')}',
             );
+
+            // Assuming you have a way to get favorite songs
+            List<SongEntity> favoriteSongs =
+                []; // Replace with actual favorite songs retrieval
+
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
               child: Column(
@@ -62,7 +67,7 @@ class PlayList extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 5),
-                  _songs(state.songs),
+                  _songs(state.songs, favoriteSongs),
                 ],
               ),
             );
@@ -74,69 +79,92 @@ class PlayList extends StatelessWidget {
     );
   }
 
-  Widget _songs(List<SongEntity> songs) {
+  Widget _songs(List<SongEntity> songs, List<SongEntity> favoriteSongs) {
     return ListView.separated(
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return BlocProvider(
           create: (context) => FavoriteButtonBloc(),
-          child: GestureDetector(
-            onTap: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+          child: Builder(
+            builder: (context) {
+              bool isFavorite = favoriteSongs.contains(songs[index]);
+
+              return GestureDetector(
+                onTap: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 45,
-                      width: 45,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color:
-                            context.isDarkMode
-                                ? AppColors.darkGrey
-                                : const Color(0xffE6E6E6),
-                      ),
-                      child: Icon(
-                        Icons.play_arrow_rounded,
-                        color:
-                            context.isDarkMode
-                                ? const Color(0xff959595)
-                                : const Color(0xff555555),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        Text(
-                          songs[index].title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        Container(
+                          height: 45,
+                          width: 45,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color:
+                                context.isDarkMode
+                                    ? AppColors.darkGrey
+                                    : const Color(0xffE6E6E6),
+                          ),
+                          child: Icon(
+                            Icons.play_arrow_rounded,
+                            color:
+                                context.isDarkMode
+                                    ? const Color(0xff959595)
+                                    : const Color(0xff555555),
                           ),
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          songs[index].artist,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11,
-                          ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              songs[index].title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              songs[index].artist,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
+                    BlocBuilder<FavoriteButtonBloc, FavoriteButtonState>(
+                      builder: (context, state) {
+                        bool isFavorite =
+                            state is FavoriteButtonUpdated &&
+                            state.songId == songs[index].id;
+
+                        return Row(
+                          children: [
+                            Text(formatDuration(songs[index].duration)),
+                            const SizedBox(height: 5),
+                            FavoriteButton(
+                              songEntity: songs[index],
+                              isFavorite: isFavorite,
+                              onPressed: () {
+                                // Add your logic to handle the favorite button press
+                                context.read<FavoriteButtonBloc>().add(
+                                  UpdateFavoriteButton(songId: songs[index].id),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text(formatDuration(songs[index].duration)),
-                    const SizedBox(height: 5),
-                    FavoriteButton(songEntity: songs[index]),
-                  ],
-                ),
-              ],
-            ),
+              );
+            },
           ),
         );
       },

@@ -6,56 +6,21 @@ import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/fav
 
 class FavoriteButton extends StatelessWidget {
   final SongEntity songEntity;
-  final Function? function;
+  final bool isFavorite;
+  final VoidCallback onPressed;
 
-  const FavoriteButton({required this.songEntity, this.function, super.key});
+  const FavoriteButton({
+    Key? key,
+    required this.songEntity,
+    required this.isFavorite,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteButtonBloc, FavoriteButtonState>(
-      builder: (context, state) {
-        if (state is FavoriteButtonInitial) {
-          return IconButton(
-            onPressed: () async {
-              context.read<FavoriteButtonBloc>().add(
-                UpdateFavoriteButton(songId: songEntity.songId),
-              );
-              if (function != null) {
-                function!();
-              }
-            },
-            icon: Icon(
-              songEntity.isFavorite
-                  ? Icons.favorite
-                  : Icons.favorite_outline_outlined,
-              size: 25,
-              color: AppColors.darkGrey,
-            ),
-          );
-        }
-
-        if (state is FavoriteButtonUpdated) {
-          return IconButton(
-            onPressed: () {
-              context.read<FavoriteButtonBloc>().add(
-                UpdateFavoriteButton(songId: songEntity.songId),
-              );
-              if (function != null) {
-                function!();
-              }
-            },
-            icon: Icon(
-              state.isFavorite
-                  ? Icons.favorite
-                  : Icons.favorite_outline_outlined,
-              size: 25,
-              color: AppColors.darkGrey,
-            ),
-          );
-        }
-
-        return Container();
-      },
+    return IconButton(
+      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+      onPressed: onPressed,
     );
   }
 }

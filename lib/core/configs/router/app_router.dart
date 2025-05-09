@@ -107,9 +107,22 @@ class AppRouter {
           GoRoute(path: '/home', builder: (context, state) => const HomePage()),
           GoRoute(
             path: '/songPlayerPage',
-            builder:
-                (context, state) =>
-                    SongPlayerPage(songEntity: state.extra as SongEntity),
+            builder: (context, state) {
+              if (state.extra != null && state.extra is List) {
+                final List<dynamic> extras = state.extra as List<dynamic>;
+                final songEntity = extras[0] as SongEntity;
+                final favoriteSongs = extras[1] as List<SongEntity>;
+
+                return SongPlayerPage(
+                  songEntity: songEntity,
+                  favoriteSongs: favoriteSongs,
+                );
+              } else {
+                return Scaffold(
+                  body: Center(child: Text('Error: Missing song data.')),
+                );
+              }
+            },
           ),
           GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
         ],

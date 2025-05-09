@@ -5,6 +5,7 @@ import 'package:spotify_clone_tr/common/widgets/favorite_button.dart';
 import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_images.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
+import 'package:spotify_clone_tr/domain/entities/song/song.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/favorite_button_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/favorite_songs/bloc/favorite_songs_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_bloc.dart';
@@ -109,11 +110,13 @@ class ProfilePage extends StatelessWidget {
                 }
 
                 if (state is FavoriteSongsLoaded) {
+                  List<SongEntity> favoriteSongs = state.favoriteSongs;
+
                   return ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final song = state.favoriteSongs[index];
+                      final song = favoriteSongs[index];
 
                       return GestureDetector(
                         onTap: () {
@@ -121,7 +124,10 @@ class ProfilePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder:
-                                  (context) => SongPlayerPage(songEntity: song),
+                                  (context) => SongPlayerPage(
+                                    songEntity: song,
+                                    favoriteSongs: favoriteSongs,
+                                  ),
                             ),
                           );
                         },
@@ -145,13 +151,12 @@ class ProfilePage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      state.favoriteSongs[index].title,
+                                      song.title,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -159,7 +164,7 @@ class ProfilePage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      state.favoriteSongs[index].artist,
+                                      song.artist,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 11,
@@ -175,23 +180,16 @@ class ProfilePage extends StatelessWidget {
                                   '${(song.duration ~/ 60).toString().padLeft(2, '0')}:${(song.duration % 60).toString().padLeft(2, '0')}',
                                 ),
                                 const SizedBox(width: 20),
-                                BlocProvider(
-                                  create:
-                                      (context) =>
-                                          FavoriteButtonBloc()..add(
-                                            UpdateFavoriteButton(
-                                              songId: song.id,
-                                            ),
-                                          ),
-                                  child: FavoriteButton(
-                                    songEntity: song,
-                                    key: UniqueKey(),
-                                    function: () {
-                                      context.read<FavoriteButtonBloc>().add(
-                                        UpdateFavoriteButton(songId: song.id),
-                                      );
-                                    },
-                                  ),
+                                FavoriteButton(
+                                  songEntity: song,
+                                  isFavorite: favoriteSongs.contains(song),
+                                  onPressed: () {
+                                    context.read<FavoriteSongsBloc>().add(
+                                      favoriteSongs.contains(song)
+                                          ? RemoveFavoriteSongEvent(song: song)
+                                          : ToggleFavoriteSongEvent(song),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -201,7 +199,7 @@ class ProfilePage extends StatelessWidget {
                     },
                     separatorBuilder:
                         (context, index) => const SizedBox(height: 20),
-                    itemCount: state.favoriteSongs.length,
+                    itemCount: favoriteSongs.length,
                   );
                 }
                 if (state is FavoriteSongsFailure) {

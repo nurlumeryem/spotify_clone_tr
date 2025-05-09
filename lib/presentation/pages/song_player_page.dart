@@ -10,7 +10,13 @@ import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/fav
 
 class SongPlayerPage extends StatelessWidget {
   final SongEntity songEntity;
-  const SongPlayerPage({super.key, required this.songEntity});
+  final List<SongEntity> favoriteSongs;
+
+  const SongPlayerPage({
+    super.key,
+    required this.songEntity,
+    required this.favoriteSongs,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +83,15 @@ class SongPlayerPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => FavoriteButtonBloc(),
-          child: FavoriteButton(songEntity: songEntity),
+          child: FavoriteButton(
+            songEntity: songEntity,
+            isFavorite: favoriteSongs.contains(songEntity),
+            onPressed: () {
+              context.read<FavoriteButtonBloc>().add(
+                UpdateFavoriteButton(songId: songEntity.id),
+              );
+            },
+          ),
         ),
       ],
     );

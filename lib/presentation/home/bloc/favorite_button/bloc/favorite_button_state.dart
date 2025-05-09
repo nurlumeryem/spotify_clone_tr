@@ -8,10 +8,7 @@ abstract class FavoriteButtonState extends Equatable {
 class FavoriteButtonInitial extends FavoriteButtonState {}
 
 class FavoriteButtonUpdated extends FavoriteButtonState {
-  final bool isFavorite;
+  final String songId;
 
-  FavoriteButtonUpdated({required this.isFavorite});
-
-  @override
-  List<Object> get props => [isFavorite];
+  FavoriteButtonUpdated(this.songId);
 }

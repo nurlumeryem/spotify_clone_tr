@@ -19,3 +19,12 @@ final class RemoveFavoriteSongEvent extends FavoriteSongsEvent {
   @override
   List<Object> get props => [song];
 }
+
+class ToggleFavoriteSongEvent extends FavoriteSongsEvent {
+  final SongEntity song;
+
+  const ToggleFavoriteSongEvent(this.song);
+
+  @override
+  List<Object> get props => [song];
+}
