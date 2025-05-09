@@ -10,6 +10,7 @@ abstract class SongSupabaseService {
   Future<Result<List<SongEntity>>> getPlayList();
   Future<Result<bool>> addOrRemoveFavoriteSong(String songId);
   Future<Result<bool>> isFavoriteSong(String songId);
+  Future<Result> getUserFavoriteSongs();
 }
 
 class SongSupabaseServiceImpl extends SongSupabaseService {
@@ -135,8 +136,60 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
   }
 
   @override
-  Future<Result<bool>> isFavoriteSong(String songId) {
-    // TODO: implement isFavoriteSong
-    throw UnimplementedError();
+  Future<Result<bool>> isFavoriteSong(String songId) async {
+    try {
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      var user = firebaseAuth.currentUser;
+      String uId = user!.uid;
+
+      QuerySnapshot favoriteSongs =
+          await firebaseFirestore
+              .collection('Users')
+              .doc(uId)
+              .collection('Favorites')
+              .where('songId', isEqualTo: songId)
+              .get();
+
+      if (favoriteSongs.docs.isNotEmpty) {
+        return Result.success(true);
+      } else {
+        return Result.success(false);
+      }
+    } catch (e) {
+      return Result.failure('Bir hata oluştu: $e');
+    }
+  }
+
+  @override
+  Future<Result> getUserFavoriteSongs() async {
+    try {
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      var user = firebaseAuth.currentUser;
+      List<SongEntity> favoriteSongs = [];
+      String uId = user!.uid;
+      QuerySnapshot favoritesSnapshot =
+          await firebaseFirestore
+              .collection('Users')
+              .doc(uId)
+              .collection('Favorites')
+              .get();
+
+      for (var element in favoritesSnapshot.docs) {
+        String songId = element['songId'];
+        var song =
+            await firebaseFirestore.collection('Songs').doc(songId).get();
+        SongModel songModel = SongModel.fromJson(song.data()!);
+        songModel.isFavorite = true;
+        songModel.songId = songId;
+        favoriteSongs.add(songModel.toEntity());
+      }
+
+      return Result.success(favoriteSongs);
+    } catch (e) {
+      print(e);
+      return Result.failure('An error occurred');
+    }
   }
 }

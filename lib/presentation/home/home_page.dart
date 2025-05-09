@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spotify_clone_tr/common/widgets/app_bar.dart';
 import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
 import 'package:spotify_clone_tr/core/app/app.dart';
@@ -33,6 +34,12 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: BasicAppbar(
         hideBack: true,
+        action: IconButton(
+          onPressed: () {
+            context.go('/profile');
+          },
+          icon: Icon(Icons.person_2_sharp),
+        ),
         title: SvgPicture.asset(AppVectors.logo, height: 40, width: 40),
       ),
       body: SingleChildScrollView(
