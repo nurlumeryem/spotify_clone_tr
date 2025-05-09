@@ -19,4 +19,7 @@ final class FavoriteSongsFailure extends FavoriteSongsState {
   final String message;
 
   const FavoriteSongsFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }

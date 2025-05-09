@@ -9,8 +9,7 @@ part 'favorite_button_state.dart';
 
 class FavoriteButtonBloc
     extends Bloc<FavoriteButtonEvent, FavoriteButtonState> {
-  final BuildContext context;
-  FavoriteButtonBloc(this.context) : super(FavoriteButtonInitial()) {
+  FavoriteButtonBloc() : super(FavoriteButtonInitial()) {
     on<UpdateFavoriteButton>((event, emit) async {
       var result = await sl<AddOrRemoveFavoriteSongUseCase>().call(
         params: event.songId,
@@ -21,11 +20,6 @@ class FavoriteButtonBloc
       } else {
         print('Error: ${result.error}');
         emit(FavoriteButtonInitial());
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Favori eklenirken hata oluştu: ${result.error}'),
-          ),
-        );
       }
     });
   }

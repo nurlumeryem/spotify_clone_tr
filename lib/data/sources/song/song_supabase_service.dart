@@ -167,8 +167,14 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
       var user = firebaseAuth.currentUser;
+
+      if (user == null) {
+        return Result.failure('Kullanıcı oturumu açmamış.');
+      }
+
       List<SongEntity> favoriteSongs = [];
-      String uId = user!.uid;
+      String uId = user.uid;
+
       QuerySnapshot favoritesSnapshot =
           await firebaseFirestore
               .collection('Users')
@@ -176,20 +182,47 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
               .collection('Favorites')
               .get();
 
+      if (favoritesSnapshot.docs.isEmpty) {
+        return Result.failure('Favori şarkı bulunamadı.');
+      }
+
       for (var element in favoritesSnapshot.docs) {
         String songId = element['songId'];
-        var song =
-            await firebaseFirestore.collection('Songs').doc(songId).get();
-        SongModel songModel = SongModel.fromJson(song.data()!);
+
+        // 🔄 Supabase'den çekiyoruz artık
+        final response =
+            await supabase.from('songs').select('*').eq('id', songId).single();
+
+        if (response == null) {
+          print('Şarkı bulunamadı Supabase içinde: $songId');
+          continue;
+        }
+
+        final String? relativePath = response['file_path'] as String?;
+        String? signedCoverUrl;
+
+        if (relativePath != null && relativePath.isNotEmpty) {
+          try {
+            signedCoverUrl = await supabase.storage
+                .from('covers')
+                .createSignedUrl(relativePath, 60 * 5);
+          } catch (e) {
+            print('Signed URL alınamadı: $e');
+          }
+        }
+
+        final songModel = SongModel.fromJson(response);
+        songModel.coverFileName = signedCoverUrl;
         songModel.isFavorite = true;
         songModel.songId = songId;
+
         favoriteSongs.add(songModel.toEntity());
       }
 
       return Result.success(favoriteSongs);
     } catch (e) {
-      print(e);
-      return Result.failure('An error occurred');
+      print('Favori şarkılar alınırken hata: $e');
+      return Result.failure('Bir hata oluştu: $e');
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:spotify_clone_tr/common/widgets/favorite_button.dart';
 import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_images.dart';
 import 'package:spotify_clone_tr/core/configs/theme/app_urls.dart';
+import 'package:spotify_clone_tr/presentation/home/bloc/favorite_button/bloc/favorite_button_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/favorite_songs/bloc/favorite_songs_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_bloc.dart';
 import 'package:spotify_clone_tr/presentation/home/bloc/profile_info/bloc/profile_info_event.dart';
@@ -16,21 +17,33 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileInfoBloc()..add(LoadUserEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ProfileInfoBloc()..add(LoadUserEvent())),
+        BlocProvider(
+          create: (_) => FavoriteSongsBloc()..add(LoadFavoriteSongsEvent()),
+        ),
+        BlocProvider(create: (context) => FavoriteButtonBloc()),
+      ],
       child: Scaffold(
         appBar: BasicAppbar(
           backgroundColor: const Color(0xff2C2B2B),
           title: const Text('Profile'),
         ),
-        body: Column(children: [_profileInfo(context)]),
+        body: Column(
+          children: [
+            _profileInfo(context),
+            const SizedBox(height: 30),
+            _favoriteSongs(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _profileInfo(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3.5,
+      height: MediaQuery.of(context).size.height / 4,
       width: double.infinity,
       decoration: BoxDecoration(
         color: context.isDarkMode ? const Color(0xff2C2B2B) : Colors.white,
@@ -53,12 +66,7 @@ class ProfilePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image:
-                          state.userEntity.imageURL != null &&
-                                  state.userEntity.imageURL!.isNotEmpty
-                              ? NetworkImage(state.userEntity.imageURL!)
-                              : AssetImage(AppImages.defaultImage),
-                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/cat.png'),
                     ),
                   ),
                 ),
@@ -129,18 +137,21 @@ class ProfilePage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        '${AppURLs.coverStorage}${song.artist} - ${song.title}.jpg?${AppURLs.defaultImage}',
+                                        song.coverFileName.startsWith('http')
+                                            ? song.coverFileName
+                                            : '${AppURLs.coverStorage}${song.coverFileName}?${AppURLs.mediaAlt}',
                                       ),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
+
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      song.title,
+                                      state.favoriteSongs[index].title,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -148,7 +159,7 @@ class ProfilePage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      song.artist,
+                                      state.favoriteSongs[index].artist,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 11,
@@ -164,7 +175,6 @@ class ProfilePage extends StatelessWidget {
                                   song.duration.toString().replaceAll('.', ':'),
                                 ),
                                 const SizedBox(width: 20),
-                                // _favoriteSongs() methodu içinde
                                 FavoriteButton(
                                   songEntity: song,
                                   key: UniqueKey(),
@@ -185,9 +195,10 @@ class ProfilePage extends StatelessWidget {
                     itemCount: state.favoriteSongs.length,
                   );
                 }
-
                 if (state is FavoriteSongsFailure) {
-                  return const Text('Please try again.');
+                  return Text(
+                    'Favori şarkılar yüklenirken bir hata oluştu: ${state.message}',
+                  );
                 }
 
                 return Container();

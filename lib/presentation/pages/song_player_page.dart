@@ -76,7 +76,7 @@ class SongPlayerPage extends StatelessWidget {
           ],
         ),
         BlocProvider(
-          create: (context) => FavoriteButtonBloc(context),
+          create: (context) => FavoriteButtonBloc(),
           child: FavoriteButton(songEntity: songEntity),
         ),
       ],

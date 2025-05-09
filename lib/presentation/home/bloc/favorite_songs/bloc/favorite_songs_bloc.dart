@@ -21,15 +21,23 @@ class FavoriteSongsBloc extends Bloc<FavoriteSongsEvent, FavoriteSongsState> {
   ) async {
     emit(FavoriteSongsLoading());
 
-    final result = await sl<GetFavoriteSongsUsecase>().call();
+    try {
+      final result = await sl<GetFavoriteSongsUsecase>().call();
 
-    if (result.isSuccess && result.data != null) {
-      favoriteSongs = result.data!;
-      emit(FavoriteSongsLoaded(favoriteSongs: favoriteSongs));
-    } else {
+      if (result.isSuccess && result.data != null) {
+        favoriteSongs = result.data!;
+        emit(FavoriteSongsLoaded(favoriteSongs: favoriteSongs));
+      } else {
+        emit(
+          FavoriteSongsFailure(
+            message: result.error ?? 'Bilinmeyen bir hata oluştu.',
+          ),
+        );
+      }
+    } catch (e) {
       emit(
         FavoriteSongsFailure(
-          message: result.error ?? 'Bilinmeyen bir hata oluştu.',
+          message: 'Favori şarkılar yüklenirken hata oluştu: $e',
         ),
       );
     }

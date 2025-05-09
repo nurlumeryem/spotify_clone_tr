@@ -79,7 +79,7 @@ class PlayList extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return BlocProvider(
-          create: (context) => FavoriteButtonBloc(context),
+          create: (context) => FavoriteButtonBloc(),
           child: GestureDetector(
             onTap: () {},
             child: Row(

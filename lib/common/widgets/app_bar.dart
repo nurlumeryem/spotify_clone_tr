@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_clone_tr/common/widgets/helpers/is_dark_mode.dart';
+import 'package:go_router/go_router.dart';
 
 class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
@@ -27,7 +28,11 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
               ? null
               : IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  if (ModalRoute.of(context)?.settings.name == '/profile') {
+                    GoRouter.of(context).go('/home');
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
                 icon: Container(
                   height: 50,
