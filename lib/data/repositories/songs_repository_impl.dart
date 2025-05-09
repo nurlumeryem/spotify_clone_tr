@@ -26,7 +26,7 @@ class SongRepositoryImpl extends SongRepository {
   }
 
   @override
-  Future<Result> getUserFavoriteSongs() async {
+  Future<Result<List<SongEntity>>> getUserFavoriteSongs() async {
     return await sl<SongSupabaseService>().getUserFavoriteSongs();
   }
 }

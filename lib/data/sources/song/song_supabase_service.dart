@@ -10,7 +10,7 @@ abstract class SongSupabaseService {
   Future<Result<List<SongEntity>>> getPlayList();
   Future<Result<bool>> addOrRemoveFavoriteSong(String songId);
   Future<Result<bool>> isFavoriteSong(String songId);
-  Future<Result> getUserFavoriteSongs();
+  Future<Result<List<SongEntity>>> getUserFavoriteSongs();
 }
 
 class SongSupabaseServiceImpl extends SongSupabaseService {
@@ -162,7 +162,7 @@ class SongSupabaseServiceImpl extends SongSupabaseService {
   }
 
   @override
-  Future<Result> getUserFavoriteSongs() async {
+  Future<Result<List<SongEntity>>> getUserFavoriteSongs() async {
     try {
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
