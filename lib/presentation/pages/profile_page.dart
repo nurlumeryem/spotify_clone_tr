@@ -92,7 +92,7 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('FAVORITE SONGS'),
+            const Text('FAVORİ ŞARKILAR 🎵❤️'),
             const SizedBox(height: 20),
             BlocBuilder<FavoriteSongsBloc, FavoriteSongsState>(
               builder: (context, state) {
