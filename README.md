@@ -2,7 +2,7 @@
 
 Flutter ile geliştirilmiş, Spotify'dan ilham alan modern bir müzik dinleme uygulaması. Bu proje; Clean Architecture, Firebase ile kimlik doğrulama, Supabase ile medya depolama ve BLoC ile durum yönetimini içermektedir.
 
-![Ekran Görüntüsü](assets/screenshots/darkmodehome.png)
+Ekran görüntüleri proje içinde assets/screenshots klasörü altında bulunmaktadır.
 
 ## ✨ Özellikler
 
